@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import math
-from .base import BaseCommand
+
 from veld.stream_processor import StreamProcessor
+
+from .base import BaseCommand
 
 
 class MaxCommand(BaseCommand):

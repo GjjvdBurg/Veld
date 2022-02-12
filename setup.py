@@ -34,6 +34,7 @@ EXTRAS = {
     "dev": dev_require + test_require + docs_require,
 }
 
+
 class manpages(Command):
     description = "Generate manpages"
     user_options = []
@@ -45,11 +46,12 @@ class manpages(Command):
         pass
 
     def run(self):
-        from veld.console import build_application
-
         from wilderness import build_manpages
 
+        from veld.console import build_application
+
         build_manpages(build_application())
+
 
 # The rest you shouldn't have to touch too much :)
 # ------------------------------------------------

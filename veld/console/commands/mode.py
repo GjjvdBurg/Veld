@@ -4,13 +4,12 @@ import math
 
 from collections import Counter
 
-from .base import BaseCommand
-
 from veld.stream_processor import StreamProcessor
+
+from .base import BaseCommand
 
 
 class ModeCommand(BaseCommand):
-
     def __init__(self):
         super().__init__(
             name="mode",

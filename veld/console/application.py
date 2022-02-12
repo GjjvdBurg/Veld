@@ -7,12 +7,12 @@ from wilderness import Command
 
 from veld.__version__ import __version__
 
-from .commands.sum import SumCommand
-from .commands.min import MinCommand
+from .commands.count import CountCommand
 from .commands.max import MaxCommand
 from .commands.mean import MeanCommand
-from .commands.count import CountCommand
+from .commands.min import MinCommand
 from .commands.mode import ModeCommand
+from .commands.sum import SumCommand
 
 
 class VeldApplication(Application):

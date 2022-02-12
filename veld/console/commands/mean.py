@@ -2,8 +2,9 @@
 
 import math
 
-from .base import BaseCommand
 from veld.stream_processor import StreamProcessor
+
+from .base import BaseCommand
 
 
 class MeanCommand(BaseCommand):
@@ -12,7 +13,6 @@ class MeanCommand(BaseCommand):
             name="mean",
             title="Find the mean (average) of the values in the data stream",
         )
-
 
     def handle(self) -> int:
         sp = StreamProcessor(
@@ -36,7 +36,7 @@ class MeanCommand(BaseCommand):
                 sums[i] += values[i]
                 counts[i] += 1
 
-        safediv = lambda a, b : float('nan') if b == 0 else a/b
+        safediv = lambda a, b: float("nan") if b == 0 else a / b
 
         means = [safediv(s, c) for s, c in zip(sums, counts)]
         print(" ".join(map(str, means)))

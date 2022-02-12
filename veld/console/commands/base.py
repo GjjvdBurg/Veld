@@ -58,4 +58,3 @@ class BaseCommand(Command):
                 "the input data from stdin."
             ),
         )
-

@@ -11,8 +11,8 @@ import shutil
 import tempfile
 import unittest
 
-from veld.stream_processor import StreamProcessor
 from veld.exceptions import StreamProcessingError
+from veld.stream_processor import StreamProcessor
 
 # TODO:
 # - encoding

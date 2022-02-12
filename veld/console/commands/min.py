@@ -2,8 +2,9 @@
 
 import math
 
-from .base import BaseCommand
 from veld.stream_processor import StreamProcessor
+
+from .base import BaseCommand
 
 
 class MinCommand(BaseCommand):
@@ -27,7 +28,7 @@ class MinCommand(BaseCommand):
         mins = None
         for values in sp:
             if mins is None:
-                mins = [float('inf')] * len(values)
+                mins = [float("inf")] * len(values)
 
             for i in range(len(values)):
                 val = values[i]

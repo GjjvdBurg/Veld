@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 def main():
     from .console import build_application
 
