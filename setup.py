@@ -25,13 +25,13 @@ REQUIRED = ["wilderness>=0.1.3"]
 
 # What packages are optional?
 docs_require = []
-test_require = []
+test_require = ["mypy"]
 dev_require = []
 
 EXTRAS = {
     "docs": docs_require,
-    "test": test_require,
-    "dev": dev_require + test_require + docs_require,
+    "tests": test_require,
+    "dev": docs_require + test_require + dev_require,
 }
 
 
