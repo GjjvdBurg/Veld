@@ -6,7 +6,7 @@
 PACKAGE=veld
 VENV_DIR=/tmp/veld_venv/
 
-.PHONY: help
+.PHONY: help dist venv
 
 .DEFAULT_GOAL := help
 
@@ -28,11 +28,13 @@ install: dist ## Install for the current user using the default python command
 # Distribution #
 ################
 
-.PHONY: dist
+.PHONY: release dist
+
+release: ## Make a release
+	python make_release.py
 
 dist: man ## Make Python source distribution
-	python setup.py build_ext --inplace && \
-		python setup.py sdist bdist_wheel
+	python setup.py sdist bdist_wheel
 
 ###########
 # Testing #
@@ -42,11 +44,17 @@ dist: man ## Make Python source distribution
 
 test: venv ## Run unit tests
 	source $(VENV_DIR)/bin/activate && \
-		python -m unittest discover -vv -f -s ./tests
+		python -m unittest discover -vv -f -s ./tests && \
+		mypy --check-untyped-defs $(PACKAGE)
+
+test_direct: ## Run unit tests directly (without virtualenv)
+	pip install .[tests] && \
+		python -m unittest discover -vv -f -s ./tests && \
+		mypy --check-untyped-defs $(PACKAGE)
 
 mypy: venv ## Run mypy
 	source $(VENV_DIR)/bin/activate && \
-	       	mypy --check-untyped-defs ./stubs $(PACKAGE)
+	       	mypy --check-untyped-defs $(PACKAGE)
 
 #################
 # Documentation #
@@ -79,11 +87,11 @@ clean_venv:
 
 .PHONY: clean
 
-clean: ## Clean build dist and egg directories left after install
+clean: clean_venv ## Clean build dist and egg directories left after install
 	rm -rf ./dist
 	rm -rf ./build
-	rm -rf ./cover
 	rm -rf ./$(PACKAGE).egg-info
+	rm -rf ./cover
 	rm -f MANIFEST
 	rm -f ./$(PACKAGE)/*.so
 	rm -f ./*_valgrind.log*
