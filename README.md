@@ -43,6 +43,10 @@ $ man veld <command>
 
 License: See the LICENSE file.
 
-Author: [Gertjan van den Burg][gertjan]
+Author: [Gertjan van den Burg][gertjan].
+
+Why "veld"? [Veld](https://en.wikipedia.org/wiki/Veld) is built on top of 
+[wilderness](https://github.com/GjjvdBurg/wilderness), and it's short and 
+didn't conflict with any tab completions I have :)
 
 [gertjan]: https://gertjanvandenburg.com
