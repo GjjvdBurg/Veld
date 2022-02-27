@@ -69,7 +69,10 @@ class VeldApplication(Application):
 
 def build_application() -> Application:
     app = VeldApplication()
-    app.set_prolog("Below are the available Veld commands")
+    app.set_prolog(
+        "Below are the available Veld commands. Use veld help <command>\n"
+        "to learn more about each command."
+    )
 
     group = app.add_group("extreme values and counts")
     group.add(MinCommand())
