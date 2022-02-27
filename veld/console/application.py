@@ -21,6 +21,8 @@ from .commands.comparison import GreaterThanCommand
 from .commands.comparison import GreaterEqualCommand
 from .commands.comparison import NotEqualCommand
 
+from .commands.histogram import HistogramCommand
+
 
 class VeldApplication(Application):
     def __init__(self):
@@ -90,8 +92,8 @@ def build_application() -> Application:
     # group = app.add_group("hypothesis testing")
     # group.add(PairedTTestCommand())
 
-    # group = app.add_group("plotting")
+    group = app.add_group("plotting")
     # group.add(LinePlotCommand())
     # group.add(ScatterPlotCommand())
-    # group.add(HistogramCommand())
+    group.add(HistogramCommand())
     return app
