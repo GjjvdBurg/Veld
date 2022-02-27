@@ -43,9 +43,10 @@ class BaseCommand(Command):
                 "Some of the Veld commands have support for "
                 "multidimensional input data. The values on each line "
                 "of the input stream are expected to be separated by this "
-                "separator. If omitted, input data will be split on "
-                "any whitespace."
+                "separator. By default, the tab character will be used as "
+                "a separator."
             ),
+            default="\t"
         )
         self.add_argument(
             "file",
