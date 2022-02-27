@@ -14,6 +14,13 @@ from .commands.min import MinCommand
 from .commands.mode import ModeCommand
 from .commands.sum import SumCommand
 
+from .commands.comparison import LessThanCommand
+from .commands.comparison import LessEqualCommand
+from .commands.comparison import EqualCommand
+from .commands.comparison import GreaterThanCommand
+from .commands.comparison import GreaterEqualCommand
+from .commands.comparison import NotEqualCommand
+
 
 class VeldApplication(Application):
     def __init__(self):
@@ -71,6 +78,14 @@ def build_application() -> Application:
     group.add(SumCommand())
     group.add(MeanCommand())
     group.add(ModeCommand())
+
+    group = app.add_group("filtering values")
+    group.add(LessThanCommand())
+    group.add(LessEqualCommand())
+    group.add(GreaterThanCommand())
+    group.add(GreaterEqualCommand())
+    group.add(EqualCommand())
+    group.add(NotEqualCommand())
 
     # group = app.add_group("hypothesis testing")
     # group.add(PairedTTestCommand())
