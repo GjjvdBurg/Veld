@@ -46,7 +46,7 @@ class BaseCommand(Command):
                 "separator. By default, the tab character will be used as "
                 "a separator."
             ),
-            default="\t"
+            default="\t",
         )
         self.add_argument(
             "file",
