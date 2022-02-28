@@ -65,6 +65,9 @@ mypy: venv ## Run mypy
 man: ## Build documentation with Sphinx
 	python setup.py build_manpages
 
+clean_man: ## Clean up man pages
+	rm -f man/*.1
+
 #######################
 # Virtual environment #
 #######################

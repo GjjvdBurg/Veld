@@ -11,7 +11,7 @@ class MinCommand(BaseCommand):
     def __init__(self):
         super().__init__(
             name="min",
-            title="Find the minimum ofthe values in the data stream",
+            title="Find the minimum of the values in the data stream",
         )
 
     def register(self):

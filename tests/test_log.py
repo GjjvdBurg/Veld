@@ -10,7 +10,6 @@ License: See LICENSE file.
 
 import math
 import os
-import random
 import shutil
 import tempfile
 import unittest
