@@ -59,7 +59,32 @@ class LogCommandTestCase(unittest.TestCase):
 
         app = build_application()
         tester = Tester(app)
-        tester.test_command("log", ['-b', '10', path])
+        tester.test_command("log", ["-b", "10", path])
+
+        try:
+            out = tester.get_stdout().strip()
+            self.assertEqual(out, exp)
+        finally:
+            os.unlink(path)
+
+    def test_log_3(self):
+        path = os.path.join(self._working_dir, "stream.txt")
+        with open(os.path.join(path), "w") as fp:
+            fp.write("2\t1\n")
+            fp.write("4\t2\n")
+            fp.write("8\t3\n")
+
+        exp = "\n".join(
+            [
+                "\t".join(["1.0", "0.0"]),
+                "\t".join(["2.0", "1.0"]),
+                "\t".join(["3.0", "1.5849625007211563"]),
+            ]
+        )
+
+        app = build_application()
+        tester = Tester(app)
+        tester.test_command("log", ["-b", "2", path])
 
         try:
             out = tester.get_stdout().strip()
