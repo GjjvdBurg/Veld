@@ -7,21 +7,20 @@ from wilderness import Command
 
 from veld.__version__ import __version__
 
+from .commands.comparison import EqualCommand
+from .commands.comparison import GreaterEqualCommand
+from .commands.comparison import GreaterThanCommand
+from .commands.comparison import LessEqualCommand
+from .commands.comparison import LessThanCommand
+from .commands.comparison import NotEqualCommand
 from .commands.count import CountCommand
+from .commands.histogram import HistogramCommand
+from .commands.log import LogCommand
 from .commands.max import MaxCommand
 from .commands.mean import MeanCommand
 from .commands.min import MinCommand
 from .commands.mode import ModeCommand
 from .commands.sum import SumCommand
-
-from .commands.comparison import LessThanCommand
-from .commands.comparison import LessEqualCommand
-from .commands.comparison import EqualCommand
-from .commands.comparison import GreaterThanCommand
-from .commands.comparison import GreaterEqualCommand
-from .commands.comparison import NotEqualCommand
-
-from .commands.histogram import HistogramCommand
 
 
 class VeldApplication(Application):
@@ -91,6 +90,9 @@ def build_application() -> Application:
     group.add(GreaterEqualCommand())
     group.add(EqualCommand())
     group.add(NotEqualCommand())
+
+    group = app.add_group("math operators")
+    group.add(LogCommand())
 
     # group = app.add_group("hypothesis testing")
     # group.add(PairedTTestCommand())
