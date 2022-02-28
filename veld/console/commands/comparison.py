@@ -74,7 +74,6 @@ class _ComparisonCommand(BaseCommand):
             ignore_invalid=self.args.ignore,
         )
         func = lambda x: self._operator(x, self.args.testvalue)
-        sep = " " if self.args.separator is None else self.args.separator
 
         for values in sp:
             outvalues = []
