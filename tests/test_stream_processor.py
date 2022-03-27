@@ -35,7 +35,16 @@ class StreamProcessorTestCase(unittest.TestCase):
         sp = StreamProcessor(path)
         self.assertEqual(list(sp), [[1, 2], [3, 4]])
 
-    def test_process_stream_sep(self):
+    def test_process_stream_sep_1(self):
+        path = os.path.join(self._working_dir, "stream.txt")
+        with open(os.path.join(path), "w") as fp:
+            fp.write("1,2\n")
+            fp.write("3,4\n")
+
+        sp = StreamProcessor(path, sep=",")
+        self.assertEqual(list(sp), [[1, 2], [3, 4]])
+
+    def test_process_stream_sep_2(self):
         path = os.path.join(self._working_dir, "stream.txt")
         with open(os.path.join(path), "w") as fp:
             fp.write("1, 2\n")
@@ -66,6 +75,16 @@ class StreamProcessorTestCase(unittest.TestCase):
         self.assertEqual(parsed[0], [1, 2])
         self.assertEqual(parsed[1][0], 3)
         self.assertTrue(math.isnan(parsed[1][1]))
+
+    def test_process_stream_flatten_1(self):
+        path = os.path.join(self._working_dir, "stream.txt")
+        with open(os.path.join(path), "w") as fp:
+            fp.write("1\t2\n")
+            fp.write("3\t4\n")
+
+        sp = StreamProcessor(path, flatten=True, ignore_invalid=True)
+        parsed = list(sp)
+        self.assertEqual(parsed, [[1], [2], [3], [4]])
 
     def test_parse_numeric_1(self):
         sp = StreamProcessor()
