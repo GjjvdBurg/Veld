@@ -74,9 +74,9 @@ class _ComparisonCommand(BaseCommand):
             ignore_invalid=self.args.ignore,
         )
         func = lambda x: self._operator(x, self.args.testvalue)
+        sep = self.args.separator
 
         for values in sp:
-            outvalues = []
             if len(values) == 1 and func(values[0]):
                 print(values[0])
             else:
