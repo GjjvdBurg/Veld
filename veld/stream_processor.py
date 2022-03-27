@@ -10,13 +10,13 @@ Copyright: (c) 2022, G.J.J. van den Burg
 
 """
 
-import io
 import sys
 
 from typing import Iterator
 from typing import List
 from typing import Optional
 from typing import Union
+from typing import TextIO
 
 from .exceptions import StreamProcessingError
 
@@ -36,10 +36,11 @@ class StreamProcessor:
         self._encoding = encoding
         self._flatten = flatten
 
-        self._stream = None
+        self._stream = None  # type: Optional[TextIO]
+        self._stream_iter = None  # type: Optional[Iterator[List[float]]]
 
     @property
-    def stream(self) -> io.TextIOWrapper:
+    def stream(self) -> TextIO:
         """Return the stream that we're reading from"""
         if not self._stream is None:
             return self._stream
@@ -57,12 +58,14 @@ class StreamProcessor:
         self._stream.close()
 
     def __iter__(self) -> "StreamProcessor":
+        self._stream_iter = self.process_stream()
         return self
 
     def __next__(self) -> List[float]:
-        return next(self.process_stream())
+        assert not self._stream_iter is None
+        return next(self._stream_iter)
 
-    def process_stream(self) -> Iterator[List[Union[int, float]]]:
+    def process_stream(self) -> Iterator[List[float]]:
         """Process the input stream"""
         for line in self.stream:
             # Skip empty lines
@@ -83,7 +86,7 @@ class StreamProcessor:
                 yield values
         self.close_stream()
 
-    def parse_numeric(self, x: str) -> Union[int, float]:
+    def parse_numeric(self, x: str) -> float:
         """Parse a string number, preserving type"""
         parse_func = float if "." in x else int
         try:
