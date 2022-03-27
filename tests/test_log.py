@@ -28,7 +28,7 @@ class LogCommandTestCase(unittest.TestCase):
 
     def test_log_1(self):
         path = os.path.join(self._working_dir, "stream.txt")
-        with open(os.path.join(path), "w") as fp:
+        with open(path, "w") as fp:
             fp.write("1\n")
             fp.write("2\n")
             fp.write("3\n")
@@ -47,7 +47,7 @@ class LogCommandTestCase(unittest.TestCase):
 
     def test_log_2(self):
         path = os.path.join(self._working_dir, "stream.txt")
-        with open(os.path.join(path), "w") as fp:
+        with open(path, "w") as fp:
             fp.write("21\n")
             fp.write("22\n")
             fp.write("23\n")
@@ -68,7 +68,7 @@ class LogCommandTestCase(unittest.TestCase):
 
     def test_log_3(self):
         path = os.path.join(self._working_dir, "stream.txt")
-        with open(os.path.join(path), "w") as fp:
+        with open(path, "w") as fp:
             fp.write("2\t1\n")
             fp.write("4\t2\n")
             fp.write("8\t3\n")
