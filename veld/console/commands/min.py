@@ -2,6 +2,9 @@
 
 import math
 
+from typing import List
+from typing import Optional
+
 from veld.stream_processor import StreamProcessor
 
 from .base import BaseCommand
@@ -25,7 +28,7 @@ class MinCommand(BaseCommand):
             flatten=self.args.flatten,
             ignore_invalid=self.args.ignore,
         )
-        mins = None
+        mins = None  # type: Optional[List[float]]
         for values in sp:
             if mins is None:
                 mins = [float("inf")] * len(values)
@@ -35,5 +38,7 @@ class MinCommand(BaseCommand):
                 if math.isnan(val):
                     continue
                 mins[i] = min(mins[i], val)
+
+        mins = [] if mins is None else mins
         print(" ".join(map(str, mins)))
         return 0

@@ -33,5 +33,6 @@ class CountCommand(BaseCommand):
                     continue
                 counts[i] += 1
 
+        counts = [] if counts is None else counts
         print(" ".join(map(str, counts)))
         return 0

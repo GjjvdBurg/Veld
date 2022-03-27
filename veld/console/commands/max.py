@@ -2,6 +2,9 @@
 
 import math
 
+from typing import List
+from typing import Optional
+
 from veld.stream_processor import StreamProcessor
 
 from .base import BaseCommand
@@ -22,7 +25,7 @@ class MaxCommand(BaseCommand):
             flatten=self.args.flatten,
             ignore_invalid=self.args.ignore,
         )
-        maxs = None
+        maxs = None # type: Optional[List[float]]
         for values in sp:
             if maxs is None:
                 maxs = [-float("inf")] * len(values)
@@ -32,5 +35,7 @@ class MaxCommand(BaseCommand):
                 if math.isnan(val):
                     continue
                 maxs[i] = max(maxs[i], val)
+
+        maxs = [] if maxs is None else maxs
         print(" ".join(map(str, maxs)))
         return 0

@@ -2,6 +2,9 @@
 
 import math
 
+from typing import List
+from typing import Optional
+
 from collections import Counter
 
 from veld.stream_processor import StreamProcessor
@@ -25,7 +28,7 @@ class ModeCommand(BaseCommand):
             ignore_invalid=self.args.ignore,
         )
 
-        counters = None
+        counters = None  # type: Optional[List[Counter]]
         for values in sp:
             if counters is None:
                 counters = [Counter() for _ in range(len(values))]
@@ -37,6 +40,7 @@ class ModeCommand(BaseCommand):
 
                 counters[i].update([val])
 
+        counters = [] if counters is None else counters
         mc = [c.most_common(1)[0] for c in counters]
         print(" ".join(map(str, mc)))
         return 0

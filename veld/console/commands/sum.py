@@ -2,6 +2,9 @@
 
 import math
 
+from typing import List
+from typing import Optional
+
 from veld.stream_processor import StreamProcessor
 
 from .base import BaseCommand
@@ -22,7 +25,7 @@ class SumCommand(BaseCommand):
             flatten=self.args.flatten,
             ignore_invalid=self.args.ignore,
         )
-        totals = None
+        totals = None  # type: Optional[List[float]]
         for values in sp:
             if totals is None:
                 totals = [0] * len(values)
@@ -33,5 +36,6 @@ class SumCommand(BaseCommand):
                     continue
                 totals[i] += val
 
+        totals = [] if totals is None else totals
         print(" ".join(map(str, totals)))
         return 0

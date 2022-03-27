@@ -2,6 +2,9 @@
 
 import math
 
+from typing import List
+from typing import Optional
+
 from veld.stream_processor import StreamProcessor
 
 from .base import BaseCommand
@@ -22,8 +25,8 @@ class MeanCommand(BaseCommand):
             flatten=self.args.flatten,
             ignore_invalid=self.args.ignore,
         )
-        counts = None
-        sums = None
+        counts = []  # type: List[int]
+        sums = None  # type: Optional[List[float]]
         for values in sp:
             if sums is None:
                 sums = [0] * len(values)
@@ -38,6 +41,7 @@ class MeanCommand(BaseCommand):
 
         safediv = lambda a, b: float("nan") if b == 0 else a / b
 
+        sums = [] if sums is None else sums
         means = [safediv(s, c) for s, c in zip(sums, counts)]
-        print(" ".join(map(str, means)))
+        print(self.args.separator.join(map(str, means)))
         return 0
