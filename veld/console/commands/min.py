@@ -40,5 +40,5 @@ class MinCommand(BaseCommand):
                 mins[i] = min(mins[i], val)
 
         mins = [] if mins is None else mins
-        print(" ".join(map(str, mins)))
+        print(self.args.separator.join(map(str, mins)))
         return 0
