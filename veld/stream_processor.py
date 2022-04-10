@@ -15,8 +15,8 @@ import sys
 from typing import Iterator
 from typing import List
 from typing import Optional
-from typing import Union
 from typing import TextIO
+from typing import Union
 
 from .exceptions import StreamProcessingError
 
