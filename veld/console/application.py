@@ -18,6 +18,7 @@ from .commands.histogram import HistogramCommand
 from .commands.log import LogCommand
 from .commands.max import MaxCommand
 from .commands.mean import MeanCommand
+from .commands.median import MedianCommand
 from .commands.min import MinCommand
 from .commands.mode import ModeCommand
 from .commands.sum import SumCommand
@@ -82,6 +83,7 @@ def build_application() -> Application:
     group.add(SumCommand())
     group.add(MeanCommand())
     group.add(ModeCommand())
+    group.add(MedianCommand())
 
     group = app.add_group("filtering values")
     group.add(LessThanCommand())
