@@ -25,7 +25,7 @@ REQUIRED = ["matplotlib>=3.3.4", "wilderness>=0.1.3"]
 
 # What packages are optional?
 docs_require = []
-test_require = ["mypy"]
+test_require = ["mypy", "green"]
 dev_require = []
 
 EXTRAS = {
