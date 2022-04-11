@@ -16,22 +16,7 @@ class MedianCommand(BaseCommand):
         )
 
     def handle(self) -> int:
-        sp = StreamProcessor(
-            path=self.args.file,
-            sep=self.args.separator,
-            encoding=self.args.encoding,
-            flatten=self.args.flatten,
-            ignore_invalid=self.args.ignore,
-        )
-        all_values = None  # type: Optional[List[List[float]]]
-        for row in sp:
-            for i, value in enumerate(row):
-                if all_values is None:
-                    all_values = []
-                    for j in range(len(row)):
-                        all_values.append([])
-                all_values[i].append(value)
-
+        all_values = self._consume_stream()
         if all_values is None:
             # no data received
             return 0

@@ -4,7 +4,12 @@
 
 """
 
+from typing import List
+from typing import Optional
+
 from wilderness import Command
+
+from veld.stream_processor import StreamProcessor
 
 
 class BaseCommand(Command):
@@ -59,3 +64,22 @@ class BaseCommand(Command):
                 "the input data from stdin."
             ),
         )
+
+    def _consume_stream(self) -> Optional[List[List[float]]]:
+        """Read the data stream into memory as a list of columns"""
+        sp = StreamProcessor(
+            path=self.args.file,
+            sep=self.args.separator,
+            encoding=self.args.encoding,
+            flatten=self.args.flatten,
+            ignore_invalid=self.args.ignore,
+        )
+        columns = None  # type: Optional[List[List[float]]]
+        for row in sp:
+            for i, value in enumerate(row):
+                if columns is None:
+                    columns = []
+                    for j in range(len(row)):
+                        columns.append([])
+                columns[i].append(value)
+        return columns
