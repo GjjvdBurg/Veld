@@ -37,5 +37,5 @@ class SumCommand(BaseCommand):
                 totals[i] += val
 
         totals = [] if totals is None else totals
-        print(" ".join(map(str, totals)))
+        print(self.args.separator.join(map(str, totals)))
         return 0
