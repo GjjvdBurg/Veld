@@ -20,18 +20,34 @@ Currently Veld includes the following commands:
 ```
 usage: veld [-h] [-V] [--debug] command ...
 
-Below are the available Veld commands
+Below are the available Veld commands. Use veld help <command>
+to learn more about each command.
 
 extreme values and counts:
-  min    Find the minimum ofthe values in the data stream
-  max    Find the maximum of the values in the data stream
-  count  Count the number of values in the data stream
+  min        Find the minimum of the values in the data stream
+  max        Find the maximum of the values in the data stream
+  count      Count the number of values in the data stream
 
 univariate statistics:
-  sum    Sum the values in the data stream
-  mean   Find the mean (average) of the values in the data stream
-  mode   Find the mode of the values in the data stream
+  sum        Sum the values in the data stream
+  mean       Find the mean (average) of the values in the data stream
+  mode       Find the mode of the values in the data stream
+  median     Find the median of the values in the data stream
+  quantile   Find the given quantile for the data in the stream
 
+filtering values:
+  lt         Keep only inputs that are less than a given threshold
+  le         Keep only inputs that are less than or equal to a given threshold
+  gt         Keep only inputs that are greater than a given threshold
+  ge         Keep only inputs that are greater than or equal to a given threshold
+  eq         Keep only inputs that equal a given value
+  ne         Keep only inputs that are not equal to a given value
+
+math operators:
+  log        Compute the logarithm of the input stream
+
+plotting:
+  histogram  Plot a histogram of the values in the data stream
 ```
 
 Documentation on all the commands can be found using:
