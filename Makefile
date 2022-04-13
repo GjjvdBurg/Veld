@@ -49,8 +49,7 @@ test: venv ## Run unit tests
 
 test_direct: ## Run unit tests directly (without virtualenv)
 	pip install .[tests] && \
-		python -m unittest discover -vv -f -s ./tests && \
-		mypy --check-untyped-defs $(PACKAGE)
+		python -m unittest discover -vv -f -s ./tests
 
 mypy: venv ## Run mypy
 	source $(VENV_DIR)/bin/activate && \
