@@ -21,7 +21,7 @@ URL = "https://github.com/GjjvdBurg/veld"
 VERSION = None
 
 # What packages are required for this module to be executed?
-REQUIRED = ["matplotlib>=3.3.4", "wilderness>=0.1.3", "numpy>=1.19"]
+REQUIRED = ["matplotlib>=3.3.4", "wilderness>=0.1.3", "numpy>=1.21"]
 
 # What packages are optional?
 docs_require = []
