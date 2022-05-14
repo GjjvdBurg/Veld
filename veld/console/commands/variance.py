@@ -3,6 +3,8 @@
 from typing import List
 from typing import Optional
 
+from veld.stats import StreamedVariance
+
 from ._base import VeldCommand
 
 
@@ -35,47 +37,19 @@ class VarianceCommand(VeldCommand):
         )
 
     def handle(self) -> int:
-        counts = None  # type: Optional[List[int]]
-        means = []  # type: List[float]
-        sqdevs = []  # type: List[float]
+        svs = None  # type: Optional[List[StreamedVariance]]
 
         for values in self.default_stream_processor:
-            if counts is None:
-                counts = [0] * len(values)
-                means = [0] * len(values)
-                sqdevs = [0] * len(values)
+            if svs is None:
+                svs = [
+                    StreamedVariance(population=self.args.population)
+                    for _ in range(len(values))
+                ]
 
-            # This is a memory efficient approach to compute the variance, by
-            # only keeping track of counts, means, and squared deviations. See
-            # also: https://gertjanvandenburg.com/blog/thompson_sampling/
             for i in range(len(values)):
-                N_prev = counts[i]
-                mean_prev = means[i]
-                sqdev_prev = sqdevs[i]
+                svs[i].update(values[i])
 
-                value = values[i]
-
-                N = N_prev + 1
-                mean = mean_prev + 1 / (N_prev + 1) * (value - mean_prev)
-                sqdev = (
-                    sqdev_prev
-                    + value * value
-                    + N_prev * mean_prev * mean_prev
-                    - N * mean * mean
-                )
-
-                counts[i] = N
-                means[i] = mean
-                sqdevs[i] = sqdev
-
-        safediv = lambda a, b: float("nan") if b == 0 else a / b
-
-        counts = [] if counts is None else counts
-        if self.args.population:
-            out = [safediv(sqdevs[i], counts[i]) for i in range(len(counts))]
-        else:
-            out = [
-                safediv(sqdevs[i], counts[i] - 1) for i in range(len(counts))
-            ]
-        print(self.args.separator.join(map(str, out)))
+        svs = [] if svs is None else svs
+        variances = [sv.variance for sv in svs]
+        print(self.args.separator.join(map(str, variances)))
         return 0
