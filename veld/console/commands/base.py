@@ -12,7 +12,7 @@ from wilderness import Command
 from veld.stream_processor import StreamProcessor
 
 
-class BaseCommand(Command):
+class VeldCommand(Command):
     def register(self):
         self.add_argument(
             "file",
@@ -66,8 +66,8 @@ class BaseCommand(Command):
             default="\t",
         )
 
-    def _consume_stream(self) -> Optional[List[List[float]]]:
-        """Read the data stream into memory as a list of columns"""
+    @property
+    def default_stream_processor(self) -> StreamProcessor:
         sp = StreamProcessor(
             path=self.args.file,
             sep=self.args.separator,
@@ -75,8 +75,12 @@ class BaseCommand(Command):
             flatten=self.args.flatten,
             ignore_invalid=self.args.ignore,
         )
+        return sp
+
+    def _consume_stream(self) -> Optional[List[List[float]]]:
+        """Read the data stream into memory as a list of columns"""
         columns = None  # type: Optional[List[List[float]]]
-        for row in sp:
+        for row in self.default_stream_processor:
             for i, value in enumerate(row):
                 if columns is None:
                     columns = []

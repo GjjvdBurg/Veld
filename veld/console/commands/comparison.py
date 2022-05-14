@@ -4,9 +4,7 @@ import enum
 
 from typing import Callable
 
-from veld.stream_processor import StreamProcessor
-
-from .base import BaseCommand
+from .base import VeldCommand
 
 
 class ComparisonOperator(enum.Enum):
@@ -28,7 +26,7 @@ COMMAND_TITLES = {
 }
 
 
-class _ComparisonCommand(BaseCommand):
+class _ComparisonCommand(VeldCommand):
     def __init__(self, op: ComparisonOperator):
         self._op = op
         super().__init__(name=op.name, title=COMMAND_TITLES[op.name])
@@ -66,17 +64,10 @@ class _ComparisonCommand(BaseCommand):
         )
 
     def handle(self) -> int:
-        sp = StreamProcessor(
-            path=self.args.file,
-            sep=self.args.separator,
-            encoding=self.args.encoding,
-            flatten=self.args.flatten,
-            ignore_invalid=self.args.ignore,
-        )
         func = lambda x: self._operator(x, self.args.testvalue)
         sep = self.args.separator
 
-        for values in sp:
+        for values in self.default_stream_processor:
             if len(values) == 1 and func(values[0]):
                 print(values[0])
             else:

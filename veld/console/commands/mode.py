@@ -5,9 +5,7 @@ import math
 from typing import List
 from typing import Optional
 
-from veld.stream_processor import StreamProcessor
-
-from .base import BaseCommand
+from .base import VeldCommand
 
 
 class ModeCounter:
@@ -27,7 +25,7 @@ class ModeCounter:
         return min(max_keys)
 
 
-class ModeCommand(BaseCommand):
+class ModeCommand(VeldCommand):
     def __init__(self):
         super().__init__(
             name="mode",
@@ -40,16 +38,8 @@ class ModeCommand(BaseCommand):
         )
 
     def handle(self) -> int:
-        sp = StreamProcessor(
-            path=self.args.file,
-            sep=self.args.separator,
-            encoding=self.args.encoding,
-            flatten=self.args.flatten,
-            ignore_invalid=self.args.ignore,
-        )
-
         counters = None  # type: Optional[List[ModeCounter]]
-        for values in sp:
+        for values in self.default_stream_processor:
             if counters is None:
                 counters = [ModeCounter() for _ in range(len(values))]
 

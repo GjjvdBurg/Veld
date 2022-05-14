@@ -5,12 +5,10 @@ import math
 from typing import List
 from typing import Optional
 
-from veld.stream_processor import StreamProcessor
-
-from .base import BaseCommand
+from .base import VeldCommand
 
 
-class MeanCommand(BaseCommand):
+class MeanCommand(VeldCommand):
     def __init__(self):
         super().__init__(
             name="mean",
@@ -18,16 +16,9 @@ class MeanCommand(BaseCommand):
         )
 
     def handle(self) -> int:
-        sp = StreamProcessor(
-            path=self.args.file,
-            sep=self.args.separator,
-            encoding=self.args.encoding,
-            flatten=self.args.flatten,
-            ignore_invalid=self.args.ignore,
-        )
         counts = []  # type: List[int]
         sums = None  # type: Optional[List[float]]
-        for values in sp:
+        for values in self.default_stream_processor:
             if sums is None:
                 sums = [0] * len(values)
                 counts = [0] * len(values)

@@ -2,12 +2,10 @@
 
 import math
 
-from veld.stream_processor import StreamProcessor
-
-from .base import BaseCommand
+from .base import VeldCommand
 
 
-class LogCommand(BaseCommand):
+class LogCommand(VeldCommand):
     def __init__(self):
         super().__init__(
             name="log", title="Compute the logarithm of the input stream"
@@ -28,14 +26,7 @@ class LogCommand(BaseCommand):
         )
 
     def handle(self) -> int:
-        sp = StreamProcessor(
-            path=self.args.file,
-            sep=self.args.separator,
-            encoding=self.args.encoding,
-            flatten=self.args.flatten,
-            ignore_invalid=self.args.ignore,
-        )
-        for values in sp:
+        for values in self.default_stream_processor:
             outvalues = []
             for i in range(len(values)):
                 val = values[i]

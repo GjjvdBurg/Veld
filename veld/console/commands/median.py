@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from typing import List
-from typing import Optional
-
-from veld.stream_processor import StreamProcessor
-
-from .base import BaseCommand
+from .base import VeldCommand
 
 
-class MedianCommand(BaseCommand):
+class MedianCommand(VeldCommand):
     def __init__(self):
         super().__init__(
             name="median",

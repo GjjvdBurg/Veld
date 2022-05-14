@@ -4,10 +4,10 @@ import importlib
 
 from types import ModuleType
 
-from .base import BaseCommand
+from .base import VeldCommand
 
 
-class BasePlotCommand(BaseCommand):
+class VeldPlotCommand(VeldCommand):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

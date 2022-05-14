@@ -3,12 +3,10 @@
 from typing import List
 from typing import Optional
 
-from veld.stream_processor import StreamProcessor
-
-from .base import BaseCommand
+from .base import VeldCommand
 
 
-class VarianceCommand(BaseCommand):
+class VarianceCommand(VeldCommand):
     def __init__(self):
         super().__init__(
             name="variance",
@@ -37,19 +35,11 @@ class VarianceCommand(BaseCommand):
         )
 
     def handle(self) -> int:
-        sp = StreamProcessor(
-            path=self.args.file,
-            sep=self.args.separator,
-            encoding=self.args.encoding,
-            flatten=self.args.flatten,
-            ignore_invalid=self.args.ignore,
-        )
-
         counts = None  # type: Optional[List[int]]
         means = []  # type: List[float]
         sqdevs = []  # type: List[float]
 
-        for values in sp:
+        for values in self.default_stream_processor:
             if counts is None:
                 counts = [0] * len(values)
                 means = [0] * len(values)

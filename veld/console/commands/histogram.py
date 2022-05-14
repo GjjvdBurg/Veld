@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from .plot_base import BasePlotCommand
+from .plot_base import VeldPlotCommand
 
 
-class HistogramCommand(BasePlotCommand):
+class HistogramCommand(VeldPlotCommand):
     def __init__(self) -> None:
         super().__init__(
             name="histogram",

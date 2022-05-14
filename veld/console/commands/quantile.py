@@ -2,10 +2,10 @@
 
 import numpy as np
 
-from .base import BaseCommand
+from .base import VeldCommand
 
 
-class QuantileCommand(BaseCommand):
+class QuantileCommand(VeldCommand):
     def __init__(self):
         super().__init__(
             name="quantile",

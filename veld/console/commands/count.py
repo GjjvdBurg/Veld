@@ -2,12 +2,10 @@
 
 import math
 
-from veld.stream_processor import StreamProcessor
-
-from .base import BaseCommand
+from .base import VeldCommand
 
 
-class CountCommand(BaseCommand):
+class CountCommand(VeldCommand):
     def __init__(self):
         super().__init__(
             name="count",
@@ -15,15 +13,8 @@ class CountCommand(BaseCommand):
         )
 
     def handle(self) -> int:
-        sp = StreamProcessor(
-            path=self.args.file,
-            sep=self.args.separator,
-            encoding=self.args.encoding,
-            flatten=self.args.flatten,
-            ignore_invalid=self.args.ignore,
-        )
         counts = None
-        for values in sp:
+        for values in self.default_stream_processor:
             if counts is None:
                 counts = [0] * len(values)
 
