@@ -23,26 +23,27 @@ class BasePlotCommand(BaseCommand):
 
     def register(self) -> None:
         super().register()
-        self.add_argument(
+        group = self.add_argument_group(title="plot options")
+        group.add_argument(
             "--xmin", help="Lower limit of the horizontal axis", type=float
         )
-        self.add_argument(
+        group.add_argument(
             "--xmax", help="Upper limit of the horizontal axis", type=float
         )
-        self.add_argument(
+        group.add_argument(
             "--ymin", help="Lower limit of the vertical axis", type=float
         )
-        self.add_argument(
+        group.add_argument(
             "--ymax", help="Upper limit of the vertical axis", type=float
         )
-        self.add_argument(
+        group.add_argument(
             "--xlabel", help="Axis label for the horizontal axis"
         )
-        self.add_argument(
+        group.add_argument(
             "--ylabel",
             help="Axis label for the vertical axis",
         )
-        self.add_argument("--title", help="Title for the plot")
+        group.add_argument("--title", help="Title for the plot")
 
     def set_plot_attributes(self) -> None:
         # Set common plot options
