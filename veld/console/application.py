@@ -24,6 +24,7 @@ from .commands.min import MinCommand
 from .commands.mode import ModeCommand
 from .commands.quantile import QuantileCommand
 from .commands.sum import SumCommand
+from .commands.variance import VarianceCommand
 
 
 class VeldApplication(Application):
@@ -82,6 +83,7 @@ def build_application() -> Application:
     group.add(ModeCommand())
     group.add(MedianCommand())
     group.add(QuantileCommand())
+    group.add(VarianceCommand())
 
     group = app.add_group("extreme values and counts")
     group.add(MinCommand())
