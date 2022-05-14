@@ -7,6 +7,7 @@ from wilderness import Command
 
 from veld.__version__ import __version__
 
+from .commands.barcount import BarCountCommand
 from .commands.comparison import EqualCommand
 from .commands.comparison import GreaterEqualCommand
 from .commands.comparison import GreaterThanCommand
@@ -112,4 +113,5 @@ def build_application() -> Application:
     # group.add(LinePlotCommand())
     group.add(ScatterPlotCommand())
     group.add(HistogramCommand())
+    group.add(BarCountCommand())
     return app
