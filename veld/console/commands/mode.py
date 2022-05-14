@@ -5,7 +5,7 @@ import math
 from typing import List
 from typing import Optional
 
-from .base import VeldCommand
+from ._base import VeldCommand
 
 
 class ModeCounter:

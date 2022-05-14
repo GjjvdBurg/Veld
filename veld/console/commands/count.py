@@ -2,7 +2,7 @@
 
 import math
 
-from .base import VeldCommand
+from ._base import VeldCommand
 
 
 class CountCommand(VeldCommand):

@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from .base import VeldCommand
+from ._base import VeldCommand
 
 
 class QuantileCommand(VeldCommand):

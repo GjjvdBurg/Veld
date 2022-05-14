@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .plot_base import VeldPlotCommand
+from ._plot import VeldPlotCommand
 
 
 class HistogramCommand(VeldPlotCommand):

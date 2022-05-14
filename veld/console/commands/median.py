@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .base import VeldCommand
+from ._base import VeldCommand
 
 
 class MedianCommand(VeldCommand):
