@@ -23,6 +23,7 @@ from .commands.median import MedianCommand
 from .commands.min import MinCommand
 from .commands.mode import ModeCommand
 from .commands.quantile import QuantileCommand
+from .commands.scatter import ScatterPlotCommand
 from .commands.sum import SumCommand
 from .commands.variance import VarianceCommand
 
@@ -107,6 +108,6 @@ def build_application() -> Application:
 
     group = app.add_group("plotting")
     # group.add(LinePlotCommand())
-    # group.add(ScatterPlotCommand())
+    group.add(ScatterPlotCommand())
     group.add(HistogramCommand())
     return app
