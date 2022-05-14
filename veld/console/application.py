@@ -79,6 +79,10 @@ def build_application() -> Application:
         "Below are the available Veld commands. Use veld help <command>\n"
         "to learn more about each command."
     )
+    app.set_epilog(
+        "For more information about Veld, visit:\n"
+        "https://github.com/GjjvdBurg/Veld"
+    )
 
     group = app.add_group("univariate statistics")
     group.add(SumCommand())
