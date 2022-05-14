@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """Unit tests for log command
@@ -8,7 +9,6 @@ License: See LICENSE file.
 
 """
 
-import math
 import os
 import shutil
 import tempfile

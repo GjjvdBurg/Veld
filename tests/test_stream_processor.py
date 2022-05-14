@@ -1,7 +1,11 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """Unit tests for stream processor
 
+Author: G.J.J. van den Burg
+Copyright: (c) 2022, G.J.J. van den Burg
+License: See LICENSE file.
 
 """
 
