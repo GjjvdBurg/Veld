@@ -76,17 +76,17 @@ def build_application() -> Application:
         "to learn more about each command."
     )
 
-    group = app.add_group("extreme values and counts")
-    group.add(MinCommand())
-    group.add(MaxCommand())
-    group.add(CountCommand())
-
     group = app.add_group("univariate statistics")
     group.add(SumCommand())
     group.add(MeanCommand())
     group.add(ModeCommand())
     group.add(MedianCommand())
     group.add(QuantileCommand())
+
+    group = app.add_group("extreme values and counts")
+    group.add(MinCommand())
+    group.add(MaxCommand())
+    group.add(CountCommand())
 
     group = app.add_group("filtering values")
     group.add(LessThanCommand())
