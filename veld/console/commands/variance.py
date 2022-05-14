@@ -11,7 +11,13 @@ from .base import BaseCommand
 class VarianceCommand(BaseCommand):
     def __init__(self):
         super().__init__(
-            name="variance", title="Compute the variance of the input stream"
+            name="variance",
+            title="Compute the variance of the input stream",
+            extra_sections={
+                "NOTES": (
+                    "1. https://en.wikipedia.org/wiki/Variance#Unbiased_sample_variance"
+                )
+            },
         )
 
     def register(self):
@@ -20,7 +26,13 @@ class VarianceCommand(BaseCommand):
             "-p",
             "--population",
             help="Compute the population variance instead of the sample variance",
-            description="TODO",
+            description=(
+                "By default the Veld variance command computes an unbiased "
+                "estimator of the sample variance using Bessel's correction "
+                "[1]. If the data stream constitutes the entirety of a "
+                "finite population, then you can use this flag to compute "
+                "the population variance."
+            ),
             action="store_true",
         )
 
