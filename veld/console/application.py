@@ -14,6 +14,7 @@ from .commands.comparison import LessEqualCommand
 from .commands.comparison import LessThanCommand
 from .commands.comparison import NotEqualCommand
 from .commands.count import CountCommand
+from .commands.cumsum import CumSumCommand
 from .commands.histogram import HistogramCommand
 from .commands.log import LogCommand
 from .commands.max import MaxCommand
@@ -97,6 +98,7 @@ def build_application() -> Application:
 
     group = app.add_group("math operators")
     group.add(LogCommand())
+    group.add(CumSumCommand())
 
     # group = app.add_group("hypothesis testing")
     # group.add(PairedTTestCommand())
