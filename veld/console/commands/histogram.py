@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
-from veld.stream_processor import StreamProcessor
-
 from .plot_base import BasePlotCommand
 
 
@@ -50,23 +47,14 @@ class HistogramCommand(BasePlotCommand):
         )
 
     def handle(self) -> int:
-        sp = StreamProcessor(
-            path=self.args.file,
-            sep=self.args.separator,
-            encoding=self.args.encoding,
-            flatten=self.args.flatten,
-            ignore_invalid=self.args.ignore,
-        )
-        data = list(sp)
-        transposed = list(map(list, zip(*data)))
+        all_values = self._consume_stream()
         self.plt.hist(
-            transposed,
+            all_values,
             bins=self.args.bins,
             cumulative=self.args.cumulative,
             density=self.args.density,
             stacked=self.args.stacked,
         )
-
         self.set_plot_attributes()
         self.plt.show()
         return 0
