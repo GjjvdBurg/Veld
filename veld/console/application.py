@@ -24,6 +24,7 @@ from .commands.min import MinCommand
 from .commands.mode import ModeCommand
 from .commands.quantile import QuantileCommand
 from .commands.scatter import ScatterPlotCommand
+from .commands.stdev import StandardDeviationCommand
 from .commands.sum import SumCommand
 from .commands.variance import VarianceCommand
 
@@ -83,8 +84,9 @@ def build_application() -> Application:
     group.add(MeanCommand())
     group.add(ModeCommand())
     group.add(MedianCommand())
-    group.add(QuantileCommand())
+    group.add(StandardDeviationCommand())
     group.add(VarianceCommand())
+    group.add(QuantileCommand())
 
     group = app.add_group("extreme values and counts")
     group.add(MinCommand())
