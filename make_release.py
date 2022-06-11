@@ -164,7 +164,7 @@ class PushToTestPyPI(Step):
 
 class InstallFromTestPyPI(Step):
     def action(self, context):
-        tmpvenv = tempfile.mkdtemp(prefix="wild_venv_")
+        tmpvenv = tempfile.mkdtemp(prefix="veld_venv_")
         self.print_and_execute(
             f"python -m venv {tmpvenv} && source {tmpvenv}/bin/activate && "
             "pip install --no-cache-dir --index-url "
