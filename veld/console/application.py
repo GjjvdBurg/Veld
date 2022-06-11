@@ -24,6 +24,7 @@ from .commands.median import MedianCommand
 from .commands.min import MinCommand
 from .commands.mode import ModeCommand
 from .commands.quantile import QuantileCommand
+from .commands.round import RoundCommand
 from .commands.scatter import ScatterPlotCommand
 from .commands.stdev import StandardDeviationCommand
 from .commands.sum import SumCommand
@@ -108,6 +109,7 @@ def build_application() -> Application:
 
     group = app.add_group("math operators")
     group.add(LogCommand())
+    group.add(RoundCommand())
     group.add(CumSumCommand())
 
     # group = app.add_group("hypothesis testing")
