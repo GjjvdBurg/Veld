@@ -49,7 +49,6 @@ class ScatterTestCase(unittest.TestCase):
                 call.show(),
             ],
         )
-        os.unlink(path)
 
     @patch("veld.console.commands.scatter.ScatterPlotCommand.plt")
     def test_scatter_2(self, mock_plt):
@@ -89,7 +88,6 @@ class ScatterTestCase(unittest.TestCase):
                 call.show(),
             ],
         )
-        os.unlink(path)
 
     @patch("veld.console.commands.scatter.ScatterPlotCommand.plt")
     def test_scatter_3(self, mock_plt):
@@ -111,7 +109,6 @@ class ScatterTestCase(unittest.TestCase):
                 call.show(),
             ],
         )
-        os.unlink(path)
 
 
 if __name__ == "__main__":
