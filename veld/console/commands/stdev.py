@@ -3,7 +3,7 @@
 from typing import List
 from typing import Optional
 
-from veld.stats import StreamedVariance
+from veld.core.streamed_variance import StreamedVariance
 
 from ._base import VeldCommand
 

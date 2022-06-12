@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Unit tests for the veld.stats module
+"""Unit tests for the StreamedVariance class
 
 Author: G.J.J. van den Burg
 Copyright: (c) 2022, G.J.J. van den Burg
@@ -11,7 +11,7 @@ License: See LICENSE file.
 
 import unittest
 
-from veld.stats import StreamedVariance
+from veld.core.streamed_variance import StreamedVariance
 
 
 class StreamedVarianceTestCase(unittest.TestCase):
