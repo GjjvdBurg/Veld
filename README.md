@@ -48,9 +48,11 @@ filtering values:
 
 math operators:
   log        Compute the logarithm of the input stream
+  round      Round the floating point values in the input stream
   cumsum     Compute the cumulative sum of the input stream
 
 plotting:
+  lines      Show line plots of the input data
   scatter    Show a scatterplot of two-dimensional data
   histogram  Plot a histogram of the values in the data stream
   barcount   Create a histogram with bars for all unique values in the stream
