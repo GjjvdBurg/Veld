@@ -88,6 +88,7 @@ class StreamProcessor:
 
     def parse_numeric(self, x: str) -> float:
         """Parse a string number, preserving type"""
+        x = x.rstrip("\r\n")
         parse_func = float if "." in x else int
         try:
             return parse_func(x)
