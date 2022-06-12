@@ -14,14 +14,14 @@ from wilderness import Tester
 from veld.console import build_application
 
 
-class LinePlotTestCase(unittest.TestCase):
+class LinesTestCase(unittest.TestCase):
     def setUp(self):
         self._working_dir = tempfile.mkdtemp(prefix="veld_test_lineplot_")
 
     def tearDown(self):
         shutil.rmtree(self._working_dir)
 
-    @patch("veld.console.commands.lines.LinePlotCommand.plt")
+    @patch("veld.console.commands.lines.LinesCommand.plt")
     def test_lineplot_1(self, mock_plt):
         path = os.path.join(self._working_dir, "stream.txt")
         x = list(range(10))
