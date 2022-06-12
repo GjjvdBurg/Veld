@@ -21,7 +21,7 @@ class LinePlotTestCase(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self._working_dir)
 
-    @patch("veld.console.commands.lineplot.LinePlotCommand.plt")
+    @patch("veld.console.commands.lines.LinePlotCommand.plt")
     def test_lineplot_1(self, mock_plt):
         path = os.path.join(self._working_dir, "stream.txt")
         x = list(range(10))
@@ -32,7 +32,7 @@ class LinePlotTestCase(unittest.TestCase):
 
         app = build_application()
         tester = Tester(app)
-        tester.test_command("lineplot", [path, "--consolidate", "--have-x"])
+        tester.test_command("lines", [path, "--consolidate", "--have-x"])
 
         self.assertEqual(
             mock_plt.mock_calls,
