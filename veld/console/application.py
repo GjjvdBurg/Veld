@@ -17,6 +17,7 @@ from .commands.comparison import NotEqualCommand
 from .commands.count import CountCommand
 from .commands.cumsum import CumSumCommand
 from .commands.histogram import HistogramCommand
+from .commands.lines import LinesCommand
 from .commands.log import LogCommand
 from .commands.max import MaxCommand
 from .commands.mean import MeanCommand
@@ -116,7 +117,7 @@ def build_application() -> Application:
     # group.add(PairedTTestCommand())
 
     group = app.add_group("plotting")
-    # group.add(LinePlotCommand())
+    group.add(LinesCommand())
     group.add(ScatterPlotCommand())
     group.add(HistogramCommand())
     group.add(BarCountCommand())
