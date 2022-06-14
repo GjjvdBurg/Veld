@@ -1,5 +1,9 @@
 # Veld
 
+[![PyPI version](https://badge.fury.io/py/Veld.svg)](https://pypi.org/project/Veld)
+[![Build status](https://github.com/GjjvdBurg/Veld/workflows/build/badge.svg)](https://github.com/GjjvdBurg/Veld/actions)
+[![Downloads](https://pepy.tech/badge/Veld)](https://pepy.tech/project/Veld)
+
 Veld is a suite of command line applications for simple statistics on a data 
 stream. It is a continuation of [cli 
 stats](https://github.com/GjjvdBurg/cli_stats). Similar projects in this space 
