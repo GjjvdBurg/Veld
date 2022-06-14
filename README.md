@@ -80,6 +80,8 @@ $ seq 10 | veld gt 5
 $ seq 10 | veld mean
 5.5
 
+$ seq 100 | veld gt 50 | veld cumsum | veld log | veld lines
+<plot opens>
 ```
 
 Documentation on all the commands can be found using:
