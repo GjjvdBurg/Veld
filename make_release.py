@@ -13,7 +13,7 @@ Date: 2019-07-23
 """
 
 import abc
-import os
+import subprocess
 import sys
 import tempfile
 import webbrowser
@@ -24,6 +24,7 @@ URLS = {
     "CI": "https://github.com/GjjvdBurg/Veld/actions",
     "tags": "https://github.com/GjjvdBurg/Veld/tags",
 }
+BRANCH_NAME = "main"
 
 
 def color_text(msg, color=None, style=None):
@@ -92,10 +93,16 @@ class Step(metaclass=abc.ABCMeta):
         color_print("Run:", color="cyan", style="bright")
         color_print("\t" + msg, color="cyan", style="bright")
 
-    def print_and_execute(self, cmd):
-        color_print(f"Going to run: {cmd}", color="magenta", style="bright")
-        wait_for_enter()
-        os.system(cmd)
+    def print_and_execute(
+        self, cmd: str, silent: bool = False, confirm: bool = True
+    ) -> str:
+        if not silent:
+            color_print(f"Running: {cmd}", color="magenta", style="bright")
+        if confirm:
+            wait_for_enter()
+        cp = subprocess.run(cmd, shell=True, text=True, capture_output=True)
+        cp.check_returncode()
+        return cp.stdout.rstrip()
 
     @abc.abstractmethod
     def action(self, context):
@@ -104,8 +111,16 @@ class Step(metaclass=abc.ABCMeta):
 
 class GitToMaster(Step):
     def action(self, context):
-        self.instruct("Make sure you're on master and changes are merged in")
-        self.print_command("git checkout master")
+        self.instruct(f"Ensuring that you're on the {BRANCH_NAME} branch")
+        branch = self.print_and_execute(
+            "git rev-parse --abbrev-ref HEAD", silent=True, confirm=False
+        )
+        if not branch == BRANCH_NAME:
+            print(f"ERROR: not on {BRANCH_NAME} branch.", file=sys.stderr)
+            raise SystemExit(1)
+
+    def post(self, context):
+        print("")
 
 
 class UpdateChangelog(Step):
@@ -178,16 +193,31 @@ class InstallFromTestPyPI(Step):
 class TestPackage(Step):
     def action(self, context):
         self.instruct(
-            f"Ensure that the following command gives version {context['version']}"
+            f"Ensuring that the package has version {context['version']}"
         )
-        self.print_and_execute(
-            f"source {context['tmpvenv']}/bin/activate && pip list | grep {context['pkgname']}"
+        version = self.print_and_execute(
+            f"source {context['tmpvenv']}/bin/activate && veld -V",
+            silent=True,
+            confirm=False,
         )
+        if not version == context["version"]:
+            print(
+                "ERROR: version installed from TestPyPI doesn't match "
+                "expected version."
+            )
+
+    def post(self, context):
+        print("")
 
 
 class RemoveVenv(Step):
     def action(self, context):
-        self.print_and_execute(f"rm -rf {context['tmpvenv']}")
+        self.print_and_execute(
+            f"rm -rf {context['tmpvenv']}", confirm=False, silent=True
+        )
+
+    def post(self, context):
+        print("")
 
 
 class GitTagVersion(Step):
