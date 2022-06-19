@@ -24,6 +24,7 @@ from .commands.mean import MeanCommand
 from .commands.median import MedianCommand
 from .commands.min import MinCommand
 from .commands.mode import ModeCommand
+from .commands.paired_ttest import PairedTTestCommand
 from .commands.quantile import QuantileCommand
 from .commands.round import RoundCommand
 from .commands.scatter import ScatterPlotCommand
@@ -113,12 +114,13 @@ def build_application() -> Application:
     group.add(RoundCommand())
     group.add(CumSumCommand())
 
-    # group = app.add_group("hypothesis testing")
-    # group.add(PairedTTestCommand())
-
     group = app.add_group("plotting")
     group.add(LinesCommand())
     group.add(ScatterPlotCommand())
     group.add(HistogramCommand())
     group.add(BarCountCommand())
+
+    group = app.add_group("hypothesis testing")
+    group.add(PairedTTestCommand())
+
     return app

@@ -38,6 +38,7 @@ class StreamProcessor:
 
         self._stream = None  # type: Optional[TextIO]
         self._stream_iter = None  # type: Optional[Iterator[List[float]]]
+        self._last_line = None  # type: Optional[str]
 
     @property
     def stream(self) -> TextIO:
@@ -49,6 +50,11 @@ class StreamProcessor:
         else:
             self._stream = open(self._path, "r", encoding=self._encoding)
         return self._stream
+
+    @property
+    def last_line(self) -> Optional[str]:
+        """The most recently parsed line"""
+        return self._last_line
 
     def close_stream(self):
         if self._stream is None:
@@ -68,6 +74,8 @@ class StreamProcessor:
     def process_stream(self) -> Iterator[List[float]]:
         """Process the input stream"""
         for line in self.stream:
+            self._last_line = line
+
             # Skip empty lines
             if not line.strip():
                 continue

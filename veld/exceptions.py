@@ -29,3 +29,14 @@ class StreamProcessingError(Error):
             "Use the -i / --ignore option to skip such values."
         )
         return msg
+
+
+class InvalidInputError(Error):
+    """Exception raised when invalid input is supplied to the command"""
+
+    def __init__(self, reason: str) -> None:
+        self._reason = reason
+
+    def __str__(self) -> str:
+        msg = f"ERROR: Invalid input received: {self._reason}"
+        return msg

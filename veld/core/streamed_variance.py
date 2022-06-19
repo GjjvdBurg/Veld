@@ -41,7 +41,18 @@ class StreamedVariance:
         """
         return math.sqrt(self.variance)
 
+    @property
+    def mean(self) -> float:
+        """Return the mean computed on the data stream"""
+        return self._mean
+
+    @property
+    def count(self) -> float:
+        """Return the number of items received in the stream"""
+        return self._count
+
     def update(self, value: float) -> None:
+        """Update the calculation with a new value"""
         count = self._count + 1
         mean = self._mean + 1 / (self._count + 1) * (value - self._mean)
         sqdev = (
