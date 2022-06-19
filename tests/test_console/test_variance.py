@@ -38,11 +38,8 @@ class VarianceCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("variance", [path])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
     def test_variance_2(self):
         path = os.path.join(self._working_dir, "stream.txt")
@@ -56,11 +53,8 @@ class VarianceCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("variance", [path, "--population"])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
     def test_variance_3(self):
         path = os.path.join(self._working_dir, "stream.txt")
@@ -74,11 +68,8 @@ class VarianceCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("variance", [path, "-s", " "])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
     def test_variance_4(self):
         path = os.path.join(self._working_dir, "stream.txt")
@@ -92,11 +83,8 @@ class VarianceCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("variance", [path, "-s", " ", "--flatten"])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
 
 if __name__ == "__main__":

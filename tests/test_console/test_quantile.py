@@ -42,11 +42,8 @@ class QuantileCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("quantile", ["-q", "0.78", path])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
     def test_quantile_2(self):
         path = os.path.join(self._working_dir, "stream.txt")
@@ -62,11 +59,8 @@ class QuantileCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("quantile", ["-q", "0.75", path])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
     def test_quantile_3(self):
         path = os.path.join(self._working_dir, "stream.txt")
@@ -84,11 +78,8 @@ class QuantileCommandTestCase(unittest.TestCase):
             "quantile", [path, "--flatten", "--quantile", "0.3"]
         )
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
 
 if __name__ == "__main__":

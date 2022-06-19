@@ -39,11 +39,8 @@ class CumSumCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("cumsum", [path])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
     def test_cumsum_2(self):
         path = os.path.join(self._working_dir, "stream.txt")
@@ -58,11 +55,8 @@ class CumSumCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("cumsum", [path, "--separator", " "])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
     def test_cumsum_3(self):
         path = os.path.join(self._working_dir, "stream.txt")
@@ -77,11 +71,8 @@ class CumSumCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("cumsum", [path, "--separator", " ", "--flatten"])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
 
 if __name__ == "__main__":

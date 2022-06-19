@@ -39,11 +39,8 @@ class MaxCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("max", [path])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
     def test_max_2(self):
         path = os.path.join(self._working_dir, "stream.txt")
@@ -59,11 +56,8 @@ class MaxCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("max", [path])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
     def test_max_3(self):
         path = os.path.join(self._working_dir, "stream.txt")
@@ -79,11 +73,8 @@ class MaxCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("max", [path, "--flatten", "-s", " "])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
 
 if __name__ == "__main__":

@@ -39,11 +39,8 @@ class ModeCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("mode", [path])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
     def test_mode_2(self):
         path = os.path.join(self._working_dir, "stream.txt")
@@ -58,11 +55,8 @@ class ModeCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("mode", [path])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
     def test_mode_3(self):
         path = os.path.join(self._working_dir, "stream.txt")
@@ -78,11 +72,8 @@ class ModeCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("mode", [path])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
     def test_mode_4(self):
         path = os.path.join(self._working_dir, "stream.txt")
@@ -98,11 +89,8 @@ class ModeCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("mode", [path, "--flatten"])
 
-        try:
-            out = tester.get_stdout().strip()
-            self.assertEqual(out, exp)
-        finally:
-            os.unlink(path)
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
 
 
 if __name__ == "__main__":
