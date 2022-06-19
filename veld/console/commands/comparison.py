@@ -68,16 +68,13 @@ class _ComparisonCommand(VeldCommand):
         sep = self.args.separator
 
         for values in self.default_stream_processor:
-            if len(values) == 1 and func(values[0]):
-                print(values[0])
+            matches = [func(val) for val in values]
+            if self.args.all:
+                if all(matches):
+                    print(sep.join(map(str, values)))
             else:
-                matches = [func(val) for val in values]
-                if self.args.all:
-                    if all(matches):
-                        print(sep.join(map(str, values)))
-                else:
-                    if any(matches):
-                        print(sep.join(map(str, values)))
+                if any(matches):
+                    print(sep.join(map(str, values)))
         return 0
 
 
