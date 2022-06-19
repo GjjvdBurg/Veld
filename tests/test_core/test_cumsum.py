@@ -26,3 +26,7 @@ class CumSumTestCase(unittest.TestCase):
         exp = []
         out = cumsum(x)
         self.assertEqual(out, exp)
+
+
+if __name__ == "__main__":
+    unittest.main()
