@@ -34,12 +34,52 @@ from .commands.variance import VarianceCommand
 
 
 class VeldApplication(Application):
+
+    _description = (
+        "Veld is a command line processor for (multi-dimensional) numeric "
+        "data streams. It can compute basic univariate statistics such as the "
+        "mean or the variance of a stream of numbers, process the stream by "
+        "computing logarithms or rounding, or create a histogram or scatter "
+        "plot of the data (among other functionality)."
+        "\n\n"
+        "Veld can be used for quick exploration of a data stream or can be "
+        "integrated in a command line data processing pipeline."
+        "\n\n"
+        "Detailed information on Veld commands can be obtained using `veld "
+        "help <command>`. Online documentation of Veld can be found via the "
+        "GitHub page [1]."
+    )
+
+    _extra = {
+        "author": (
+            "Veld was created by Gertjan van den Burg [2]. See the GitHub "
+            "project page at [3] for an up-to-date list of contributors."
+        ),
+        "reporting bugs": (
+            "Any bugs that you encounter can be reported at the GitHub page "
+            "for Veld [1]. Please do not hesitate, you're helping to make "
+            "this project better for everyone!"
+        ),
+        "notes": (
+            "1. Veld page on GitHub\n"
+            "   https://github.com/GjjvdBurg/Veld\n"
+            "\n"
+            "2. More about Gertjan van den Burg\n"
+            "   https://gertjan.dev\n"
+            "\n"
+            "3. Contributors to Veld\n"
+            "   https://github.com/GjjvdBurg/Veld/contributors\n"
+        ),
+    }
+
     def __init__(self):
         super().__init__(
             "veld",
             version=__version__,
-            title="easy command line statistics",
+            title="Easy command line analytics",
             author="Gerrit J.J. van den Burg",
+            description=self._description,
+            extra_sections=self._extra,
         )
 
     def register(self):
