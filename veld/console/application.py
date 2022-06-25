@@ -80,6 +80,7 @@ class VeldApplication(Application):
             author="Gerrit J.J. van den Burg",
             description=self._description,
             extra_sections=self._extra,
+            add_commands_section=True,
         )
 
     def register(self):
@@ -99,6 +100,26 @@ class VeldApplication(Application):
                 "can be useful for debugging."
             ),
         )
+
+    def get_commands_text(self) -> str:
+        text = []
+        text.append("We list the available Veld commands by use case.")
+        text.append("")
+        for group in self.groups:
+            if group.is_root:
+                continue
+            assert group.title is not None
+            text.append(group.title.capitalize())
+            for command in group.commands:
+                assert command.title is not None
+                text.append(f"\t{self.name}-{command.name}(1)")
+                text.append(f"\t\t{command.title.capitalize() or ''}")
+                text.append("")
+        text.append(
+            "For more information about each command, use: veld help "
+            "<command>, or: man veld <command> from the command line."
+        )
+        return "\n".join(text)
 
     def set_excepthook(self) -> None:
         sys_hook = sys.excepthook
