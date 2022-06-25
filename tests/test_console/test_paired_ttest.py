@@ -45,7 +45,7 @@ class PairedTTestCommandTestCase(unittest.TestCase):
 
         app = build_application()
         tester = Tester(app)
-        tester.test_command("paired_ttest", [path])
+        tester.test_command("paired-ttest", [path])
 
         out = tester.get_stdout().strip()
         self.assertEqual(out, exp)
@@ -68,7 +68,7 @@ class PairedTTestCommandTestCase(unittest.TestCase):
 
         app = build_application()
         tester = Tester(app)
-        tester.test_command("paired_ttest", [path])
+        tester.test_command("paired-ttest", [path])
 
         out = tester.get_stdout().strip()
         self.assertEqual(out, exp)
@@ -99,7 +99,7 @@ class PairedTTestCommandTestCase(unittest.TestCase):
 
         app = build_application()
         tester = Tester(app)
-        tester.test_command("paired_ttest", [path, "--json"])
+        tester.test_command("paired-ttest", [path, "--json"])
 
         out = tester.get_stdout().strip()
         out_lines = out.split("\n")

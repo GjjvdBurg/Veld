@@ -13,7 +13,7 @@ from ._base import VeldCommand
 class PairedTTestCommand(VeldCommand):
     def __init__(self):
         super().__init__(
-            name="paired_ttest",
+            name="paired-ttest",
             title="Perform a paired t-test on two-dimensional data",
             description=(
                 "This command can be used to run a paired differences t-test "
