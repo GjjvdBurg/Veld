@@ -45,8 +45,8 @@ class VeldApplication(Application):
         "Veld can be used for quick exploration of a data stream or can be "
         "integrated in a command line data processing pipeline."
         "\n\n"
-        "Detailed information on Veld commands can be obtained using `veld "
-        "help <command>`. Online documentation of Veld can be found via the "
+        "Detailed information on Veld commands can be obtained using: veld "
+        "help <command>. Online documentation of Veld can be found via the "
         "GitHub page [1]."
     )
 
@@ -68,7 +68,7 @@ class VeldApplication(Application):
             "   https://gertjan.dev\n"
             "\n"
             "3. Contributors to Veld\n"
-            "   https://github.com/GjjvdBurg/Veld/contributors\n"
+            "   https://github.com/GjjvdBurg/Veld/graphs/contributors\n"
         ),
     }
 

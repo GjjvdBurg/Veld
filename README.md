@@ -4,10 +4,11 @@
 [![Build status](https://github.com/GjjvdBurg/Veld/workflows/build/badge.svg)](https://github.com/GjjvdBurg/Veld/actions)
 [![Downloads](https://pepy.tech/badge/Veld)](https://pepy.tech/project/Veld)
 
-Veld is a suite of command line applications for simple statistics on a data 
-stream. It is a continuation of [cli 
-stats](https://github.com/GjjvdBurg/cli_stats). Similar projects in this space 
-include [st](https://github.com/nferraz/st) and 
+Veld is a command line processor for multi-dimensional numeric data streams. 
+It can compute basic univariate statistics such as the mean or the variance of 
+a stream of numbers, process the stream by computing logarithms or rounding, 
+or create visualizations of the data stream, among other functionality. 
+Similar projects in this space include [st](https://github.com/nferraz/st) and 
 [datamash](https://www.gnu.org/software/datamash/). What sets Veld apart from 
 these projects is that it also has support for plotting.
 
@@ -102,5 +103,7 @@ Author: [Gertjan van den Burg][gertjan].
 Why "veld"? [Veld](https://en.wikipedia.org/wiki/Veld) is built on top of 
 [wilderness](https://github.com/GjjvdBurg/wilderness), and it's short and 
 didn't conflict with any tab completions I have :)
+
+Veld is a continuation of [cli stats](https://github.com/GjjvdBurg/cli_stats). 
 
 [gertjan]: https://gertjanvandenburg.com
