@@ -13,10 +13,15 @@ Date: 2019-07-23
 """
 
 import abc
+import os
+import re
+import shutil
 import subprocess
 import sys
 import tempfile
 import webbrowser
+
+from typing import Dict
 
 import colorama
 
@@ -25,6 +30,7 @@ URLS = {
     "tags": "https://github.com/GjjvdBurg/Veld/tags",
 }
 BRANCH_NAME = "main"
+CHANGELOG_FILENAME = "CHANGELOG.md"
 
 
 def color_text(msg, color=None, style=None):
@@ -70,6 +76,22 @@ def get_package_version(pkgname):
     return ctx["__version__"]
 
 
+def get_last_version_tag():
+    output = ""
+    with subprocess.Popen(
+        "git tag -l", shell=True, stdout=subprocess.PIPE, text=True, bufsize=1
+    ) as p:
+        for line in p.stdout:
+            output += line
+    tags = output.rstrip().split()
+    version_tags = [
+        t for t in tags if re.match("v\d+\.\d+\.\d+", t) is not None
+    ]
+    versions = [v.lstrip(".") for v in version_tags]
+    versions.sort()
+    return versions[-1]
+
+
 class Step(metaclass=abc.ABCMeta):
     def pre(self, context):
         pass
@@ -93,26 +115,45 @@ class Step(metaclass=abc.ABCMeta):
         color_print("Run:", color="cyan", style="bright")
         color_print("\t" + msg, color="cyan", style="bright")
 
-    def print_and_execute(
+    def system(self, cmd: str):
+        os.system(cmd)
+
+    def execute(
         self, cmd: str, silent: bool = False, confirm: bool = True
     ) -> str:
         if not silent:
             color_print(f"Running: {cmd}", color="magenta", style="bright")
         if confirm:
             wait_for_enter()
-        cp = subprocess.run(cmd, shell=True, text=True, capture_output=True)
-        cp.check_returncode()
-        return cp.stdout.rstrip()
+        stdout = ""
+        with subprocess.Popen(
+            cmd,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            stdin=subprocess.PIPE,
+            text=True,
+            bufsize=1,
+        ) as p:
+            for line in p.stdout:
+                stdout += line
+                if not silent:
+                    print(line, end="")
+        if p.returncode:
+            raise subprocess.CalledProcessError(
+                p.returncode, p.args, stdout, p.stderr
+            )
+        return stdout.rstrip()
 
     @abc.abstractmethod
     def action(self, context):
         """Action to perform for the step"""
 
 
-class GitToMaster(Step):
+class GitToMain(Step):
     def action(self, context):
         self.instruct(f"Ensuring that you're on the {BRANCH_NAME} branch")
-        branch = self.print_and_execute(
+        branch = self.execute(
             "git rev-parse --abbrev-ref HEAD", silent=True, confirm=False
         )
         if not branch == BRANCH_NAME:
@@ -124,9 +165,59 @@ class GitToMaster(Step):
 
 
 class UpdateChangelog(Step):
+
+    _nice_name = {
+        "feat": "Features",
+        "docs": "Documentation",
+        "style": "Code style",
+        "build": "Build",
+        "test": "Testing",
+    }
+    _type_sort = ["feat", "test", "docs", "build", "style"]
+
     def action(self, context):
-        self.instruct(f"Update change log for version {context['version']}")
-        self.print_command("vi CHANGELOG.md")
+        self.instruct(
+            f"Updating change log for version {context['next_version']}"
+        )
+        context["changelog_update"] = self.get_changelog_section(context)
+        self.update_changelog(context)
+
+    def get_changelog_section(self, context: Dict[str, str]) -> str:
+        next_version = context["next_version"]
+        prev_version = context["prev_version"]
+        commits = self.execute(
+            f"git log --pretty=oneline {prev_version}..HEAD | cut -d' ' -f2-",
+            silent=True,
+            confirm=False,
+        )
+        commits = commits.split("\n")
+        commits.sort()
+        by_type = {}
+        for commit in commits:
+            ctype, msg = commit.split(":", maxsplit=1)
+            if not ctype in by_type:
+                by_type[ctype] = []
+            by_type[ctype].append(msg.strip())
+
+        ctypes = sorted(by_type.keys(), key=lambda k: self._type_sort.index(k))
+
+        text = ["", f"## Version {next_version}", ""]
+        for ctype in ctypes:
+            text.append(f"* {self._nice_name[ctype]}")
+            for msg in by_type[ctype]:
+                text.append(f"  - {msg.capitalize()}")
+        return "\n".join(text)
+
+    def update_changelog(self, context: Dict[str, str]) -> None:
+        with open(CHANGELOG_FILENAME, "r") as fp:
+            with open(CHANGELOG_FILENAME + ".tmp", "w") as op:
+                op.write(fp.readline())
+                op.write(context["changelog_update"])
+                op.write("\n")
+                for line in fp:
+                    op.write(line)
+        shutil.move(CHANGELOG_FILENAME, CHANGELOG_FILENAME + ".bak")
+        shutil.move(CHANGELOG_FILENAME + ".tmp", CHANGELOG_FILENAME)
 
 
 class UpdateReadme(Step):
@@ -138,41 +229,37 @@ class UpdateReadme(Step):
 class RunTests(Step):
     def action(self, context):
         self.instruct("Run the unit tests")
-        self.print_and_execute("make test && make mypy")
+        self.execute("make test && make mypy")
 
 
 class BumpVersionPackage(Step):
     def action(self, context):
         self.instruct("Update __version__.py with new version")
-        self.print_and_execute(f"vi {context['pkgname']}/__version__.py")
+        self.execute(f"vi {context['pkgname']}/__version__.py")
 
     def post(self, context):
         wait_for_enter()
-        context["version"] = self._get_version(context)
-
-    def _get_version(self, context):
-        # Get the version from the version file
-        return get_package_version(context["pkgname"])
+        context["next_version"] = get_package_version(context["pkgname"])
 
 
 class MakeClean(Step):
     def action(self, context):
-        self.print_and_execute("make clean")
+        self.execute("make clean")
 
 
 class MakeDocs(Step):
     def action(self, context):
-        self.print_and_execute("make docs")
+        self.execute("make docs")
 
 
 class MakeDist(Step):
     def action(self, context):
-        self.print_and_execute("make dist")
+        self.execute("make dist")
 
 
 class PushToTestPyPI(Step):
     def action(self, context):
-        self.print_and_execute(
+        self.system(
             "twine upload --repository-url https://test.pypi.org/legacy/ dist/*"
         )
 
@@ -180,12 +267,12 @@ class PushToTestPyPI(Step):
 class InstallFromTestPyPI(Step):
     def action(self, context):
         tmpvenv = tempfile.mkdtemp(prefix="veld_venv_")
-        self.print_and_execute(
+        self.execute(
             f"python -m venv {tmpvenv} && source {tmpvenv}/bin/activate && "
             "pip install --no-cache-dir --index-url "
             "https://test.pypi.org/simple/ "
             "--extra-index-url https://pypi.org/simple "
-            f"{context['pkgname']}=={context['version']}"
+            f"{context['pkgname']}=={context['next_version']}"
         )
         context["tmpvenv"] = tmpvenv
 
@@ -193,14 +280,14 @@ class InstallFromTestPyPI(Step):
 class TestPackage(Step):
     def action(self, context):
         self.instruct(
-            f"Ensuring that the package has version {context['version']}"
+            f"Ensuring that the package has version {context['next_version']}"
         )
-        version = self.print_and_execute(
+        version = self.execute(
             f"source {context['tmpvenv']}/bin/activate && veld -V",
             silent=True,
             confirm=False,
         )
-        if not version == context["version"]:
+        if not version == context["next_version"]:
             print(
                 "ERROR: version installed from TestPyPI doesn't match "
                 "expected version."
@@ -212,7 +299,7 @@ class TestPackage(Step):
 
 class RemoveVenv(Step):
     def action(self, context):
-        self.print_and_execute(
+        self.execute(
             f"rm -rf {context['tmpvenv']}", confirm=False, silent=True
         )
 
@@ -222,7 +309,7 @@ class RemoveVenv(Step):
 
 class GitTagVersion(Step):
     def action(self, context):
-        self.print_and_execute(f"git tag v{context['version']}")
+        self.execute(f"git tag v{context['next_version']}")
 
 
 class GitAdd(Step):
@@ -235,20 +322,20 @@ class GitAddRelease(Step):
     def action(self, context):
         self.instruct("Add Changelog & Readme to git")
         self.instruct(
-            f"Commit with title: {context['pkgname']} Release {context['version']}"
+            f"Commit with title: {context['pkgname']} Release {context['next_version']}"
         )
         self.instruct("Embed changelog in body commit message")
-        self.print_and_execute("git gui")
+        self.execute("git gui")
 
 
 class PushToPyPI(Step):
     def action(self, context):
-        self.print_and_execute("twine upload dist/*")
+        self.system("twine upload dist/*")
 
 
 class PushToGitHub(Step):
     def action(self, context):
-        self.print_and_execute("git push -u --tags origin master")
+        self.execute(f"git push -u --tags origin {BRANCH_NAME}")
 
 
 class WaitForCI(Step):
@@ -266,7 +353,7 @@ class GitHubRelease(Step):
 def main(target=None):
     colorama.init()
     procedure = [
-        ("gittomaster", GitToMaster()),
+        ("gittomain", GitToMain()),
         ("gitadd1", GitAdd()),
         ("clean1", MakeClean()),
         ("runtests", RunTests()),
@@ -289,7 +376,8 @@ def main(target=None):
     ]
     context = {}
     context["pkgname"] = get_package_name()
-    context["version"] = get_package_version(context["pkgname"])
+    context["prev_version"] = get_last_version_tag()
+    context["next_version"] = get_package_version(context["pkgname"])
     skip = True if target else False
     for name, step in procedure:
         if not name == target and skip:
