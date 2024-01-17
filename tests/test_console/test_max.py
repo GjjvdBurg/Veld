@@ -76,6 +76,23 @@ class MaxCommandTestCase(unittest.TestCase):
         out = tester.get_stdout().strip()
         self.assertEqual(out, exp)
 
+    def test_max_4(self):
+        path = os.path.join(self._working_dir, "stream.txt")
+        with open(path, "w") as fp:
+            fp.write("-1\t8\n")
+            fp.write("5\t2\n")
+            fp.write("6\t-10\n")
+            fp.write("8\t11\n")
+
+        exp = "\n".join(["8", "5", "6", "11"])
+
+        app = build_application()
+        tester = Tester(app)
+        tester.test_command("max", [path, "--reduce"])
+
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
+
 
 if __name__ == "__main__":
     unittest.main()

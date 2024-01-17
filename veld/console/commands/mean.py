@@ -1,38 +1,43 @@
 # -*- coding: utf-8 -*-
 
-import math
+from veld.core.operators import MeanOperator
 
-from typing import List
-from typing import Optional
-
-from ._base import VeldCommand
+from ._reducable import ReducableCommand
 
 
-class MeanCommand(VeldCommand):
+class MeanCommand(ReducableCommand):
     def __init__(self):
         super().__init__(
+            operator=MeanOperator,
             name="mean",
             title="Find the mean (average) of the values in the data stream",
+            extra_sections={
+                "Examples": (
+                    # TODO: Make this a test case for groffify in Wilderness
+                    "Below are some examples of using the mean command."
+                    "\n\n"
+                    "1. Taking the mean of a univariate data stream:\n"
+                    "$ seq 12 | veld mean\n"
+                    "6.5\n\n"
+                    "2. Mean of a multidimensional data stream:\n"
+                    "$ paste <(seq 5) <(seq 5 9) | veld mean\n"
+                    "3.0\t7.0\n\n"
+                    "3. Multivariate data stream flattened into a univariate one:\n"
+                    "$ paste <(seq 5) <(seq 5 9) | veld mean --flatten\n"
+                    "5.0\n\n"
+                    "4. Multivariate data stream averaged row-wise:\n"
+                    "$ paste <(seq 5) <(seq 5 9) | veld mean --reduce\n"
+                    "\n\n"
+                    "3.0"
+                    "\n\n"
+                    "4.0"
+                    "\n\n"
+                    "5.0"
+                    "\n\n"
+                    "6.0"
+                    "\n\n"
+                    "7.0"
+                    "\n\n"
+                )
+            },
         )
-
-    def handle(self) -> int:
-        counts = []  # type: List[int]
-        sums = None  # type: Optional[List[float]]
-        for values in self.default_stream_processor:
-            if sums is None:
-                sums = [0] * len(values)
-                counts = [0] * len(values)
-
-            for i in range(len(values)):
-                val = values[i]
-                if math.isnan(val):
-                    continue
-                sums[i] += values[i]
-                counts[i] += 1
-
-        safediv = lambda a, b: float("nan") if b == 0 else a / b
-
-        sums = [] if sums is None else sums
-        means = [safediv(s, c) for s, c in zip(sums, counts)]
-        print(self.args.separator.join(map(str, means)))
-        return 0

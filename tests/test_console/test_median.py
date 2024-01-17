@@ -92,6 +92,23 @@ class MedianCommandTestCase(unittest.TestCase):
         out = tester.get_stdout().strip()
         self.assertEqual(out, exp)
 
+    def test_median_5(self):
+        path = os.path.join(self._working_dir, "stream.txt")
+        with open(path, "w") as fp:
+            fp.write("1\t8\n")
+            fp.write("5\t2\t4\n")
+            fp.write("6\t8\n")
+            fp.write("8\t1\t1\t9\t3\n")
+
+        exp = "\n".join(["4.5", "4", "7.0", "3"])
+
+        app = build_application()
+        tester = Tester(app)
+        tester.test_command("median", [path, "--reduce"])
+
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
+
 
 if __name__ == "__main__":
     unittest.main()

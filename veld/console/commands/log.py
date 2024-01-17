@@ -18,7 +18,7 @@ class LogCommand(VeldCommand):
             "--base",
             type=float,
             default=math.e,
-            help="Base of the logarithm to use",
+            help="Base of the logarithm to use (default: exp(1))",
             description=(
                 "By default the natural logarithm is computed. Use this "
                 "value to set a different base for the logarithm."

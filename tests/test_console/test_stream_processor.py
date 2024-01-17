@@ -104,6 +104,14 @@ class StreamProcessorTestCase(unittest.TestCase):
         sp = StreamProcessor(ignore_invalid=True)
         self.assertTrue(math.isnan(sp.parse_numeric("a")))
 
+    @unittest.skip("not implemented yet")
+    def test_encoding(self):
+        pass
+
+    @unittest.skip("not implemented yet")
+    def test_parse_stdin(self):
+        pass
+
 
 if __name__ == "__main__":
     unittest.main()

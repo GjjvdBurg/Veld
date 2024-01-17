@@ -5,9 +5,9 @@ import glob
 import io
 import os
 
+from setuptools import Command
 from setuptools import find_packages
 from setuptools import setup
-from setuptools._distutils.core import Command
 
 # Package meta-data.
 NAME = "veld"

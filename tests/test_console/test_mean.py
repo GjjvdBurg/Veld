@@ -76,6 +76,23 @@ class MeanCommandTestCase(unittest.TestCase):
         out = tester.get_stdout().strip()
         self.assertEqual(out, exp)
 
+    def test_mean_4(self):
+        path = os.path.join(self._working_dir, "stream.txt")
+        with open(path, "w") as fp:
+            fp.write("1\t8\n")
+            fp.write("5\t2\n")
+            fp.write("6\t1\n")
+            fp.write("8\t1\n")
+
+        exp = "\n".join(["4.5", "3.5", "3.5", "4.5"])
+
+        app = build_application()
+        tester = Tester(app)
+        tester.test_command("mean", [path, "--reduce"])
+
+        out = tester.get_stdout().strip()
+        self.assertEqual(out, exp)
+
 
 if __name__ == "__main__":
     unittest.main()

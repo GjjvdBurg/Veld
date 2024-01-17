@@ -16,7 +16,6 @@ from typing import Iterator
 from typing import List
 from typing import Optional
 from typing import TextIO
-from typing import Union
 
 from .exceptions import StreamProcessingError
 
@@ -25,7 +24,7 @@ class StreamProcessor:
     def __init__(
         self,
         path: Optional[str] = None,
-        sep: str = None,
+        sep: Optional[str] = None,
         encoding: str = "utf-8",
         flatten: bool = False,
         ignore_invalid: bool = False,
@@ -36,14 +35,14 @@ class StreamProcessor:
         self._encoding = encoding
         self._flatten = flatten
 
-        self._stream = None  # type: Optional[TextIO]
-        self._stream_iter = None  # type: Optional[Iterator[List[float]]]
-        self._last_line = None  # type: Optional[str]
+        self._stream: Optional[TextIO] = None
+        self._stream_iter: Optional[Iterator[List[float]]] = None
+        self._last_line: Optional[str] = None
 
     @property
     def stream(self) -> TextIO:
         """Return the stream that we're reading from"""
-        if not self._stream is None:
+        if self._stream is not None:
             return self._stream
         if self._path is None:
             self._stream = sys.stdin
@@ -68,7 +67,7 @@ class StreamProcessor:
         return self
 
     def __next__(self) -> List[float]:
-        assert not self._stream_iter is None
+        assert self._stream_iter is not None
         return next(self._stream_iter)
 
     def process_stream(self) -> Iterator[List[float]]:

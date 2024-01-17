@@ -19,6 +19,7 @@ from .commands.cumsum import CumSumCommand
 from .commands.histogram import HistogramCommand
 from .commands.lines import LinesCommand
 from .commands.log import LogCommand
+from .commands.math import MultiplyCommand
 from .commands.max import MaxCommand
 from .commands.mean import MeanCommand
 from .commands.median import MedianCommand
@@ -30,6 +31,7 @@ from .commands.round import RoundCommand
 from .commands.scatter import ScatterPlotCommand
 from .commands.stdev import StandardDeviationCommand
 from .commands.sum import SumCommand
+from .commands.trimmed_mean import TrimmedMeanCommand
 from .commands.variance import VarianceCommand
 
 
@@ -156,6 +158,7 @@ def build_application() -> Application:
     group.add(StandardDeviationCommand())
     group.add(VarianceCommand())
     group.add(QuantileCommand())
+    group.add(TrimmedMeanCommand())
 
     group = app.add_group("extreme values and counts")
     group.add(MinCommand())
@@ -174,6 +177,7 @@ def build_application() -> Application:
     group.add(LogCommand())
     group.add(RoundCommand())
     group.add(CumSumCommand())
+    group.add(MultiplyCommand())
 
     group = app.add_group("plotting")
     group.add(LinesCommand())

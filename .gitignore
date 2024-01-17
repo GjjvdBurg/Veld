@@ -1,11 +1,5 @@
 build/
 dist/
 man/
-tests/__pycache__/
-tests/test_console/__pycache__/
-tests/test_core/__pycache__/
 veld.egg-info
-veld/__pycache__/
-veld/console/__pycache__/
-veld/console/commands/__pycache__/
-veld/core/__pycache__/
+**/__pycache__/

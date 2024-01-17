@@ -29,7 +29,7 @@ class VeldCommand(Command):
         group.add_argument(
             "-e",
             "--encoding",
-            help="Encoding if the input stream",
+            help="Encoding of the input stream",
             default="utf-8",
             description=("Specify the encoding of the input stream."),
         )
@@ -65,6 +65,7 @@ class VeldCommand(Command):
             ),
             default="\t",
         )
+        self._processing_args_group = group
 
     @property
     def default_stream_processor(self) -> StreamProcessor:
