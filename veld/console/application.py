@@ -19,7 +19,10 @@ from .commands.cumsum import CumSumCommand
 from .commands.histogram import HistogramCommand
 from .commands.lines import LinesCommand
 from .commands.log import LogCommand
+from .commands.math import AddCommand
+from .commands.math import DivideCommand
 from .commands.math import MultiplyCommand
+from .commands.math import SubtractCommand
 from .commands.max import MaxCommand
 from .commands.mean import MeanCommand
 from .commands.median import MedianCommand
@@ -36,7 +39,6 @@ from .commands.variance import VarianceCommand
 
 
 class VeldApplication(Application):
-
     _description = (
         "Veld is a command line processor for (multi-dimensional) numeric "
         "data streams. It can compute basic univariate statistics such as the "
@@ -177,7 +179,10 @@ def build_application() -> Application:
     group.add(LogCommand())
     group.add(RoundCommand())
     group.add(CumSumCommand())
+    group.add(AddCommand())
+    group.add(SubtractCommand())
     group.add(MultiplyCommand())
+    group.add(DivideCommand())
 
     group = app.add_group("plotting")
     group.add(LinesCommand())

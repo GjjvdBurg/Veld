@@ -9,79 +9,48 @@ License: See LICENSE file.
 
 """
 
-import os
-import shutil
-import tempfile
-import unittest
+from pathlib import Path
 
-from wilderness import Tester
+from typing import List
 
-from veld.console import build_application
+import pytest
+
+from .helpers import run_command
 
 
-class LogCommandTestCase(unittest.TestCase):
-    def setUp(self):
-        self._working_dir = tempfile.mkdtemp(prefix="veld_test_log_")
-
-    def tearDown(self):
-        shutil.rmtree(self._working_dir)
-
-    def test_log_1(self):
-        path = os.path.join(self._working_dir, "stream.txt")
-        with open(path, "w") as fp:
-            fp.write("1\n")
-            fp.write("2\n")
-            fp.write("3\n")
-
-        exp = "\n".join(["0.0", "0.6931471805599453", "1.0986122886681098"])
-
-        app = build_application()
-        tester = Tester(app)
-        tester.test_command("log", [path])
-
-        out = tester.get_stdout().strip()
-        self.assertEqual(out, exp)
-
-    def test_log_2(self):
-        path = os.path.join(self._working_dir, "stream.txt")
-        with open(path, "w") as fp:
-            fp.write("21\n")
-            fp.write("22\n")
-            fp.write("23\n")
-
-        exp = "\n".join(
-            ["1.322219294733919", "1.3424226808222062", "1.3617278360175928"]
-        )
-
-        app = build_application()
-        tester = Tester(app)
-        tester.test_command("log", ["-b", "10", path])
-
-        out = tester.get_stdout().strip()
-        self.assertEqual(out, exp)
-
-    def test_log_3(self):
-        path = os.path.join(self._working_dir, "stream.txt")
-        with open(path, "w") as fp:
-            fp.write("2\t1\n")
-            fp.write("4\t2\n")
-            fp.write("8\t3\n")
-
-        exp = "\n".join(
+@pytest.mark.parametrize(
+    ("values", "args", "expected"),
+    [
+        (
+            [[1], [2], [3]],
+            [],
+            [[0.0], [0.6931471805599453], [1.0986122886681098]],
+        ),
+        (
+            [[21], [22], [23]],
+            ["-b", "10"],
             [
-                "\t".join(["1.0", "0.0"]),
-                "\t".join(["2.0", "1.0"]),
-                "\t".join(["3.0", "1.5849625007211563"]),
-            ]
-        )
-
-        app = build_application()
-        tester = Tester(app)
-        tester.test_command("log", ["-b", "2", path])
-
-        out = tester.get_stdout().strip()
-        self.assertEqual(out, exp)
-
-
-if __name__ == "__main__":
-    unittest.main()
+                [1.322219294733919],
+                [1.3424226808222062],
+                [1.3617278360175928],
+            ],
+        ),
+        (
+            [[2, 1], [4, 2], [8, 3]],
+            ["-b", "2"],
+            [
+                [1.0, 0.0],
+                [2.0, 1.0],
+                [3.0, 1.5849625007211563],
+            ],
+        ),
+    ],
+)
+def test_log(
+    values: List[List[float]],
+    args: List[str],
+    expected: List[List[float]],
+    tmp_path: Path,
+) -> None:
+    output = run_command("log", args, values, tmp_path)
+    assert output == expected

@@ -18,6 +18,7 @@ from typing import Optional
 from typing import TextIO
 
 from .exceptions import StreamProcessingError
+from .utils import parse_numeric
 
 
 class StreamProcessor:
@@ -83,7 +84,7 @@ class StreamProcessor:
             parts = line.split(sep=self._sep)
 
             # Parse numbers from text
-            values = list(map(self.parse_numeric, parts))
+            values = list(map(self._parse, parts))
 
             # Flatten the input array if desired
             if self._flatten:
@@ -93,12 +94,11 @@ class StreamProcessor:
                 yield values
         self.close_stream()
 
-    def parse_numeric(self, x: str) -> float:
+    def _parse(self, x: str) -> float:
         """Parse a string number, preserving type"""
         x = x.rstrip("\r\n")
-        parse_func = float if "." in x else int
         try:
-            return parse_func(x)
+            return parse_numeric(x)
         except ValueError:
             pass
         if self._ignore_invalid:

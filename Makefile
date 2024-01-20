@@ -5,6 +5,7 @@
 
 PACKAGE=veld
 VENV_DIR=/tmp/veld_venv/
+TEST_DIR=./tests
 
 .PHONY: help dist venv
 
@@ -40,26 +41,30 @@ dist: man ## Make Python source distribution
 # Testing #
 ###########
 
-.PHONY: test mypy
+.PHONY: test mypy pytest
 
-test: mypy venv ## Run unit tests
+test: pytest mypy venv ## Run unit tests
 	source $(VENV_DIR)/bin/activate && \
-		python -m unittest discover -vv -s ./tests
+		python -m unittest discover -vv -s $(TEST_DIR)
 
 test_direct: ## Run unit tests directly (without virtualenv)
 	pip install .[tests] && \
-		python -m unittest discover -vv -f -s ./tests
+		python -m unittest discover -vv -f -s $(TEST_DIR)
+
+pytest: venv ## Run unit tests with PyTest
+	source $(VENV_DIR)/bin/activate && pytest -ra -m 'not network'
 
 mypy: venv ## Run mypy
 	@echo "#####################" && \
 		echo "# Testing with MyPy #" && \
 		echo "#####################" && \
 		source $(VENV_DIR)/bin/activate && \
-		mypy --check-untyped-defs $(PACKAGE)
+		mypy --check-untyped-defs $(PACKAGE) $(TEST_DIR)
 
+coverage: cover
 cover: venv ## Create test coverage report
 	source $(VENV_DIR)/bin/activate && \
-		green -a -r -s 1 -vv ./tests
+		green -a -r -s 1 -vv $(TEST_DIR)
 
 #################
 # Documentation #

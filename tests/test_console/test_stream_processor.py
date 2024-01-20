@@ -90,19 +90,19 @@ class StreamProcessorTestCase(unittest.TestCase):
         parsed = list(sp)
         self.assertEqual(parsed, [[1], [2], [3], [4]])
 
-    def test_parse_numeric_1(self):
+    def test_parse_1(self):
         sp = StreamProcessor()
-        self.assertEqual(int(1), sp.parse_numeric("1"))
-        self.assertEqual(float(5.5), sp.parse_numeric("5.5"))
+        self.assertEqual(int(1), sp._parse("1"))
+        self.assertEqual(float(5.5), sp._parse("5.5"))
 
-    def test_parse_numeric_2(self):
+    def test_parse_2(self):
         sp = StreamProcessor(ignore_invalid=False)
         with self.assertRaises(StreamProcessingError) as err:
-            sp.parse_numeric("a")
+            sp._parse("a")
         self.assertEqual(err.exception._value, "a")
 
         sp = StreamProcessor(ignore_invalid=True)
-        self.assertTrue(math.isnan(sp.parse_numeric("a")))
+        self.assertTrue(math.isnan(sp._parse("a")))
 
     @unittest.skip("not implemented yet")
     def test_encoding(self):
