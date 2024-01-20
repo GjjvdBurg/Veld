@@ -9,71 +9,30 @@ License: See LICENSE file.
 
 """
 
-import os
-import shutil
-import tempfile
-import unittest
+import pytest
 
-from wilderness import Tester
-
-from veld.console import build_application
+from .helpers import run_command
 
 
-class CumSumCommandTestCase(unittest.TestCase):
-    def setUp(self):
-        self._working_dir = tempfile.mkdtemp(prefix="veld_test_cumsum_")
-
-    def tearDown(self):
-        shutil.rmtree(self._working_dir)
-
-    def test_cumsum_1(self):
-        path = os.path.join(self._working_dir, "stream.txt")
-        with open(path, "w") as fp:
-            fp.write("1\n")
-            fp.write("3\n")
-            fp.write("5\n")
-
-        exp = "\n".join(["1", "4", "9"])
-
-        app = build_application()
-        tester = Tester(app)
-        tester.test_command("cumsum", [path])
-
-        out = tester.get_stdout().strip()
-        self.assertEqual(out, exp)
-
-    def test_cumsum_2(self):
-        path = os.path.join(self._working_dir, "stream.txt")
-        with open(path, "w") as fp:
-            fp.write("1 2\n")
-            fp.write("3 4\n")
-            fp.write("5 6\n")
-
-        exp = "\n".join(["1 2", "4 6", "9 12"])
-
-        app = build_application()
-        tester = Tester(app)
-        tester.test_command("cumsum", [path, "--separator", " "])
-
-        out = tester.get_stdout().strip()
-        self.assertEqual(out, exp)
-
-    def test_cumsum_3(self):
-        path = os.path.join(self._working_dir, "stream.txt")
-        with open(path, "w") as fp:
-            fp.write("1 2\n")
-            fp.write("3 4\n")
-            fp.write("5 6\n")
-
-        exp = "\n".join(["1", "3", "6", "10", "15", "21"])
-
-        app = build_application()
-        tester = Tester(app)
-        tester.test_command("cumsum", [path, "--separator", " ", "--flatten"])
-
-        out = tester.get_stdout().strip()
-        self.assertEqual(out, exp)
-
-
-if __name__ == "__main__":
-    unittest.main()
+@pytest.mark.parametrize(
+    ("values", "args", "expected"),
+    [
+        (
+            [[1], [3], [5]],
+            [],
+            [[1], [4], [9]],
+        ),
+        (
+            [[1, 2], [3, 4], [5, 6]],
+            [],
+            [[1, 2], [4, 6], [9, 12]],
+        ),
+        (
+            [[1, 2], [3, 4], [5, 6]],
+            ["--flatten"],
+            [[1], [3], [6], [10], [15], [21]],
+        ),
+    ],
+)
+def test_cumsum(values, args, expected, tmp_path) -> None:
+    assert expected == run_command("cumsum", args, values, tmp_path)
