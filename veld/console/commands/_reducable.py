@@ -32,7 +32,7 @@ class ReducableCommand(VeldCommand):
     def handle(self) -> int:
         wrapper = OperatorWrapper(self._operator, reduce=self.args.reduce)
         sep = self.args.separator
-        for row in self.default_stream_processor:
+        for row in self._get_stream_processor():
             wrapper.update(row)
             if self.args.reduce:
                 print(str(wrapper.result))

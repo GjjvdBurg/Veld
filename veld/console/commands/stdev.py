@@ -39,7 +39,7 @@ class StandardDeviationCommand(VeldCommand):
     def handle(self) -> int:
         svs: Optional[List[StreamedVariance]] = None
 
-        for values in self.default_stream_processor:
+        for values in self._get_stream_processor():
             if svs is None:
                 svs = [
                     StreamedVariance(population=self.args.population)

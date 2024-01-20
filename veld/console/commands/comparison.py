@@ -64,17 +64,17 @@ class _ComparisonCommand(VeldCommand):
         )
 
     def handle(self) -> int:
-        func = lambda x: self._operator(x, self.args.testvalue)
         sep = self.args.separator
 
-        for values in self.default_stream_processor:
-            matches = [func(val) for val in values]
+        for values in self._get_stream_processor():
+            matches = [
+                self._operator(val, self.args.testvalue) for val in values
+            ]
             if self.args.all:
                 if all(matches):
                     print(sep.join(map(str, values)))
-            else:
-                if any(matches):
-                    print(sep.join(map(str, values)))
+            elif any(matches):
+                print(sep.join(map(str, values)))
         return 0
 
 

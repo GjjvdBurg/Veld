@@ -18,7 +18,7 @@ class CumSumCommand(VeldCommand):
 
     def handle(self) -> int:
         out_values: Optional[List[float]] = None
-        for values in self.default_stream_processor:
+        for values in self._get_stream_processor():
             if out_values is None:
                 out_values = [0] * len(values)
 

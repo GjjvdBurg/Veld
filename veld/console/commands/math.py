@@ -20,7 +20,7 @@ class AddCommand(VeldCommand):
         )
 
     def handle(self) -> int:
-        for values in self.default_stream_processor:
+        for values in self._get_stream_processor():
             outvalues = [val + self.args.value for val in values]
             print(self.args.separator.join(map(str, outvalues)))
         return 0
@@ -43,7 +43,7 @@ class SubtractCommand(VeldCommand):
         )
 
     def handle(self) -> int:
-        for values in self.default_stream_processor:
+        for values in self._get_stream_processor():
             outvalues = [val - self.args.value for val in values]
             print(self.args.separator.join(map(str, outvalues)))
         return 0
@@ -66,7 +66,7 @@ class MultiplyCommand(VeldCommand):
         )
 
     def handle(self) -> int:
-        for values in self.default_stream_processor:
+        for values in self._get_stream_processor():
             outvalues = [val * self.args.value for val in values]
             print(self.args.separator.join(map(str, outvalues)))
         return 0
@@ -89,7 +89,7 @@ class DivideCommand(VeldCommand):
         )
 
     def handle(self) -> int:
-        for values in self.default_stream_processor:
+        for values in self._get_stream_processor():
             outvalues = [val / self.args.value for val in values]
             print(self.args.separator.join(map(str, outvalues)))
         return 0

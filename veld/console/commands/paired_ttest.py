@@ -53,7 +53,7 @@ class PairedTTestCommand(VeldCommand):
 
     def handle(self) -> int:
         streamed_var = StreamedVariance()
-        sp = self.default_stream_processor
+        sp = self._get_stream_processor()
 
         # Compute necessary statistics in a streaming fashion
         for values in sp:

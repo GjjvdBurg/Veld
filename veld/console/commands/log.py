@@ -26,7 +26,7 @@ class LogCommand(VeldCommand):
         )
 
     def handle(self) -> int:
-        for values in self.default_stream_processor:
+        for values in self._get_stream_processor():
             outvalues = []
             for i in range(len(values)):
                 val = values[i]
