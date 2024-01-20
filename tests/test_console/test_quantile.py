@@ -42,7 +42,9 @@ class QuantileCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("quantile", ["-q", "0.78", path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_quantile_2(self):
@@ -59,7 +61,9 @@ class QuantileCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("quantile", ["-q", "0.75", path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_quantile_3(self):
@@ -78,7 +82,9 @@ class QuantileCommandTestCase(unittest.TestCase):
             "quantile", [path, "--flatten", "--quantile", "0.3"]
         )
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
 

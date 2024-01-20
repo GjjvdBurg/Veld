@@ -7,8 +7,8 @@ from ._base import BaseOperator
 
 class MeanOperator(BaseOperator):
     def __init__(self):
-        self._total = None  # type: Optional[float]
-        self._count = 0  # type: int
+        self._total: Optional[float] = None
+        self._count = 0
 
     @property
     def result(self) -> Optional[float]:

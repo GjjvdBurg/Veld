@@ -47,7 +47,9 @@ class PairedTTestCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("paired-ttest", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_paired_ttest_2(self):
@@ -70,7 +72,9 @@ class PairedTTestCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("paired-ttest", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_paired_ttest_3(self):
@@ -101,7 +105,9 @@ class PairedTTestCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("paired-ttest", [path, "--json"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         out_lines = out.split("\n")
         self.assertTrue(
             all(map(lambda x: x.startswith("\t"), out_lines[1:-1]))

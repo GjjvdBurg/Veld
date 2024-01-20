@@ -64,7 +64,7 @@ class BarCountCommand(VeldPlotCommand):
         counters = [Counter(column) for column in all_values]
         for i, counter in enumerate(counters):
             xs = sorted(counter.keys())
-            ys = [counter[x] for x in xs]  # type: List[float]
+            ys: List[float] = [counter[x] for x in xs]
             xs = [x - w / 2 + (2 * i + 1) * w / n_col / 2 for x in xs]
             if self.args.relative:
                 ys = [y / sum(ys) for y in ys]

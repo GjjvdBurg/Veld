@@ -7,7 +7,7 @@ from ._base import BaseOperator
 
 class MaxOperator(BaseOperator):
     def __init__(self):
-        self._maximum = None  # type: Optional[float]
+        self._maximum: Optional[float] = None
 
     @property
     def result(self) -> Optional[float]:

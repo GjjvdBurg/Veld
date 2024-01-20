@@ -40,7 +40,9 @@ class SumCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("sum", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_sum_2(self):
@@ -57,7 +59,9 @@ class SumCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("sum", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_sum_3(self):
@@ -74,7 +78,9 @@ class SumCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("sum", [path, "--flatten"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_sum_4a(self):
@@ -109,7 +115,9 @@ class SumCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("sum", [path, "--ignore"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_sum_5(self):
@@ -126,7 +134,9 @@ class SumCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("sum", [path, "--reduce"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
 

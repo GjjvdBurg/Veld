@@ -39,7 +39,9 @@ class MeanCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("mean", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_mean_2(self):
@@ -56,7 +58,9 @@ class MeanCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("mean", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_mean_3(self):
@@ -73,7 +77,9 @@ class MeanCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("mean", [path, "--flatten"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_mean_4(self):
@@ -90,7 +96,9 @@ class MeanCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("mean", [path, "--reduce"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
 

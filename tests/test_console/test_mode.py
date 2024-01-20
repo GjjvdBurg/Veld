@@ -39,7 +39,9 @@ class ModeCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("mode", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_mode_2(self):
@@ -55,7 +57,9 @@ class ModeCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("mode", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_mode_3(self):
@@ -72,7 +76,9 @@ class ModeCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("mode", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_mode_4(self):
@@ -89,7 +95,9 @@ class ModeCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("mode", [path, "--flatten"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
 

@@ -7,7 +7,7 @@ from ._base import BaseOperator
 
 class MinOperator(BaseOperator):
     def __init__(self):
-        self._minimum = None  # type: Optional[float]
+        self._minimum: Optional[float] = None
 
     @property
     def result(self) -> Optional[float]:

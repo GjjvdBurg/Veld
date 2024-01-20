@@ -7,7 +7,7 @@ from ._base import BaseOperator
 
 class SumOperator(BaseOperator):
     def __init__(self):
-        self._total = None  # type: Optional[float]
+        self._total: Optional[float] = None
 
     @property
     def result(self) -> Optional[float]:

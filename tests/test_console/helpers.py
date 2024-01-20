@@ -21,7 +21,9 @@ def run_command(
     tester = Tester(app)
     tester.test_command(command, [*args, str(filename)])
 
-    content = tester.get_stdout().strip()
+    stdout = tester.get_stdout()
+    assert stdout is not None
+    content = stdout.strip()
     output = [
         list(map(float, line.split("\t"))) for line in content.split("\n")
     ]

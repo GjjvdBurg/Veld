@@ -8,7 +8,7 @@ from ._base import BaseOperator
 
 class MedianOperator(BaseOperator):
     def __init__(self):
-        self._values = None  # type: Optional[List[float]]
+        self._values: Optional[List[float]] = None
 
     @property
     def result(self) -> Optional[float]:

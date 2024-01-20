@@ -39,7 +39,9 @@ class MedianCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("median", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_median_2(self):
@@ -55,7 +57,9 @@ class MedianCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("median", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_median_3(self):
@@ -72,7 +76,9 @@ class MedianCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("median", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_median_4(self):
@@ -89,7 +95,9 @@ class MedianCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("median", [path, "--flatten"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_median_5(self):
@@ -106,7 +114,9 @@ class MedianCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("median", [path, "--reduce"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
 

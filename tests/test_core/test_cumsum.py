@@ -11,6 +11,8 @@ License: See LICENSE file.
 
 import unittest
 
+from typing import List
+
 from veld.core.cumsum import cumsum
 
 
@@ -22,8 +24,8 @@ class CumSumTestCase(unittest.TestCase):
         self.assertEqual(out, exp)
 
     def test_cumsum_2(self):
-        x = []
-        exp = []
+        x: List[int] = []
+        exp: List[int] = []
         out = cumsum(x)
         self.assertEqual(out, exp)
 

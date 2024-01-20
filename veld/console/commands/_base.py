@@ -80,7 +80,7 @@ class VeldCommand(Command):
 
     def _consume_stream(self) -> Optional[List[List[float]]]:
         """Read the data stream into memory as a list of columns"""
-        columns = None  # type: Optional[List[List[float]]]
+        columns: Optional[List[List[float]]] = None
         for row in self.default_stream_processor:
             for i, value in enumerate(row):
                 if columns is None:

@@ -40,7 +40,9 @@ class MinCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("min", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_min_2(self):
@@ -57,7 +59,9 @@ class MinCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("min", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_min_3(self):
@@ -74,7 +78,9 @@ class MinCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("min", [path, "--flatten"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_min_4a(self):
@@ -109,7 +115,9 @@ class MinCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("min", [path, "--ignore"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_min_5(self):
@@ -126,7 +134,9 @@ class MinCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("min", [path, "--reduce"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
 

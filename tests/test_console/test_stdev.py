@@ -38,7 +38,9 @@ class StandardDeviationCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("stdev", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_stdev_2(self):
@@ -53,7 +55,9 @@ class StandardDeviationCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("stdev", [path, "--population"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_stdev_3(self):
@@ -68,7 +72,9 @@ class StandardDeviationCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("stdev", [path, "-s", " "])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_stdev_4(self):
@@ -83,7 +89,9 @@ class StandardDeviationCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("stdev", [path, "-s", " ", "--flatten"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
 

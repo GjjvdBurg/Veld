@@ -39,7 +39,9 @@ class RoundCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("round", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_round_2(self):
@@ -55,7 +57,9 @@ class RoundCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("round", [path, "-n", "2"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_round_3(self):
@@ -71,7 +75,9 @@ class RoundCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("round", ["-s", ",", "-n", "3", path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
 

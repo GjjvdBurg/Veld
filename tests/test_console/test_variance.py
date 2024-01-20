@@ -38,7 +38,9 @@ class VarianceCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("variance", [path])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_variance_2(self):
@@ -53,7 +55,9 @@ class VarianceCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("variance", [path, "--population"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_variance_3(self):
@@ -68,7 +72,9 @@ class VarianceCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("variance", [path, "-s", " "])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
     def test_variance_4(self):
@@ -83,7 +89,9 @@ class VarianceCommandTestCase(unittest.TestCase):
         tester = Tester(app)
         tester.test_command("variance", [path, "-s", " ", "--flatten"])
 
-        out = tester.get_stdout().strip()
+        stdout = tester.get_stdout()
+        assert stdout is not None
+        out = stdout.strip()
         self.assertEqual(out, exp)
 
 

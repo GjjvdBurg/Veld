@@ -15,8 +15,8 @@ class OperatorWrapper:
     ):
         self._operator_class = operator_class
         self._reduce = reduce
-        self._single = None  # type: Optional[BaseOperator]
-        self._multi = None  # type: Optional[List[BaseOperator]]
+        self._single: Optional[BaseOperator] = None
+        self._multi: Optional[List[BaseOperator]] = None
 
     @property
     def row_result(self) -> List[Optional[float]]:

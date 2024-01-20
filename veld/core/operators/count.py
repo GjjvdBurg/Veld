@@ -7,7 +7,7 @@ from ._base import BaseOperator
 
 class CountOperator(BaseOperator):
     def __init__(self):
-        self._count = None  # type: Optional[int]
+        self._count: Optional[int] = None
 
     @property
     def result(self) -> Optional[float]:

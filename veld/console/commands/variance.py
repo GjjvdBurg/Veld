@@ -37,7 +37,7 @@ class VarianceCommand(VeldCommand):
         )
 
     def handle(self) -> int:
-        svs = None  # type: Optional[List[StreamedVariance]]
+        svs: Optional[List[StreamedVariance]] = None
 
         for values in self.default_stream_processor:
             if svs is None:
