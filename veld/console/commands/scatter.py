@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from typing import List
 
 from ._plot import VeldPlotCommand
 
@@ -20,7 +21,7 @@ class ScatterPlotCommand(VeldPlotCommand):
         )
 
     def handle(self) -> int:
-        all_values = self._consume_stream()
+        all_values: List[List[float]] = self._consume_stream()
         if all_values is None:
             return 1
 

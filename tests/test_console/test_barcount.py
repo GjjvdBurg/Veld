@@ -49,7 +49,8 @@ class BarCountTestCase(unittest.TestCase):
         self.assertEqual(
             mock_plt.mock_calls,
             [
-                call.bar([1, 2, 3, 4], [2, 4, 1, 1], width=0.8),
+                call.bar([0.0, 1.0, 2.0, 3.0], [2, 4, 1, 1], width=0.8),
+                call.xticks([0, 1, 2, 3], [1, 2, 3, 4]),
                 call.xlim(left=None, right=None),
                 call.ylim(bottom=None, top=None),
                 call.show(),
@@ -80,11 +81,12 @@ class BarCountTestCase(unittest.TestCase):
             mock_plt.mock_calls,
             [
                 call.bar(
-                    [0.875, 1.875, 2.875, 3.875], [2, 4, 1, 1], width=0.25
+                    [-0.125, 0.875, 1.875, 2.875], [2, 4, 1, 1], width=0.25
                 ),
                 call.bar(
-                    [1.125, 3.125, 4.125, 5.125], [1, 3, 3, 1], width=0.25
+                    [0.125, 2.125, 3.125, 4.125], [1, 3, 3, 1], width=0.25
                 ),
+                call.xticks([0.0, 1.0, 2.0, 3.0, 4.0], [1, 2, 3, 4, 5]),
                 call.xlim(left=None, right=None),
                 call.ylim(bottom=None, top=None),
                 call.show(),
@@ -112,7 +114,46 @@ class BarCountTestCase(unittest.TestCase):
         self.assertEqual(
             mock_plt.mock_calls,
             [
-                call.bar([1, 2, 3, 4], [0.25, 0.5, 0.125, 0.125], width=0.5),
+                call.bar(
+                    [0.0, 1.0, 2.0, 3.0], [0.25, 0.5, 0.125, 0.125], width=0.5
+                ),
+                call.xticks([0, 1, 2, 3], [1, 2, 3, 4]),
+                call.xlim(left=None, right=None),
+                call.ylim(bottom=None, top=None),
+                call.show(),
+            ],
+        )
+        os.unlink(path)
+
+    @patch("veld.console.commands.barcount.BarCountCommand.plt")
+    def test_barcount_4(self, mock_plt):
+        path = os.path.join(self._working_dir, "stream.txt")
+        with open(path, "w") as fp:
+            fp.write("a c\n")
+            fp.write("b d\n")
+            fp.write("b e\n")
+            fp.write("b d\n")
+            fp.write("a c\n")
+            fp.write("c d\n")
+            fp.write("d a\n")
+            fp.write("b c\n")
+
+        app = build_application()
+        tester = Tester(app)
+        tester.test_command(
+            "barcount", [path, "--separator", " ", "--width", "0.5"]
+        )
+
+        self.assertEqual(
+            mock_plt.mock_calls,
+            [
+                call.bar(
+                    [-0.125, 0.875, 1.875, 2.875], [2, 4, 1, 1], width=0.25
+                ),
+                call.bar(
+                    [0.125, 2.125, 3.125, 4.125], [1, 3, 3, 1], width=0.25
+                ),
+                call.xticks([0, 1, 2, 3, 4], ["a", "b", "c", "d", "e"]),
                 call.xlim(left=None, right=None),
                 call.ylim(bottom=None, top=None),
                 call.show(),

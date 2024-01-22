@@ -52,7 +52,7 @@ test_direct: ## Run unit tests directly (without virtualenv)
 		python -m unittest discover -vv -f -s $(TEST_DIR)
 
 pytest: venv ## Run unit tests with PyTest
-	source $(VENV_DIR)/bin/activate && pytest -ra -m 'not network'
+	source $(VENV_DIR)/bin/activate && pytest -vvv -ra -m 'not network'
 
 mypy: venv ## Run mypy
 	@echo "#####################" && \

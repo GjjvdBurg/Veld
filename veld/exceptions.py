@@ -40,3 +40,9 @@ class InvalidInputError(Error):
     def __str__(self) -> str:
         msg = f"ERROR: Invalid input received: {self._reason}"
         return msg
+
+
+class EmptyStreamError(Error):
+    """Exception raised when no data was received"""
+
+    pass

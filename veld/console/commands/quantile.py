@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from typing import List
+
 import numpy as np
 
 from ._base import VeldCommand
@@ -23,7 +25,7 @@ class QuantileCommand(VeldCommand):
         )
 
     def handle(self) -> int:
-        columns = self._consume_stream()
+        columns: List[List[float]] = self._consume_stream()
         if columns is None:
             return 0
 

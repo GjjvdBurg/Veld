@@ -16,7 +16,8 @@ import tempfile
 import unittest
 
 from veld.exceptions import StreamProcessingError
-from veld.stream_processor import StreamProcessor
+from veld.stream_processor import ForgivingStreamProcessor
+from veld.stream_processor import NumericStreamProcessor
 
 # TODO:
 # - encoding
@@ -36,7 +37,7 @@ class StreamProcessorTestCase(unittest.TestCase):
             fp.write("1\t2\n")
             fp.write("3\t4\n")
 
-        sp = StreamProcessor(path)
+        sp = NumericStreamProcessor(path)
         self.assertEqual(list(sp), [[1, 2], [3, 4]])
 
     def test_process_stream_sep_1(self):
@@ -45,7 +46,7 @@ class StreamProcessorTestCase(unittest.TestCase):
             fp.write("1,2\n")
             fp.write("3,4\n")
 
-        sp = StreamProcessor(path, sep=",")
+        sp = NumericStreamProcessor(path, sep=",")
         self.assertEqual(list(sp), [[1, 2], [3, 4]])
 
     def test_process_stream_sep_2(self):
@@ -54,7 +55,7 @@ class StreamProcessorTestCase(unittest.TestCase):
             fp.write("1, 2\n")
             fp.write("3, 4\n")
 
-        sp = StreamProcessor(path, sep=",")
+        sp = NumericStreamProcessor(path, sep=",")
         self.assertEqual(list(sp), [[1, 2], [3, 4]])
 
     def test_process_stream_invalid_1(self):
@@ -63,7 +64,7 @@ class StreamProcessorTestCase(unittest.TestCase):
             fp.write("1\t2\n")
             fp.write("3\ta\n")
 
-        sp = StreamProcessor(path, ignore_invalid=False)
+        sp = NumericStreamProcessor(path, ignore_invalid=False)
         with self.assertRaises(StreamProcessingError) as err:
             list(sp)
         self.assertEqual(err.exception._value, "a")
@@ -74,7 +75,7 @@ class StreamProcessorTestCase(unittest.TestCase):
             fp.write("1\t2\n")
             fp.write("3\ta\n")
 
-        sp = StreamProcessor(path, ignore_invalid=True)
+        sp = NumericStreamProcessor(path, ignore_invalid=True)
         parsed = list(sp)
         self.assertEqual(parsed[0], [1, 2])
         self.assertEqual(parsed[1][0], 3)
@@ -86,23 +87,29 @@ class StreamProcessorTestCase(unittest.TestCase):
             fp.write("1\t2\n")
             fp.write("3\t4\n")
 
-        sp = StreamProcessor(path, flatten=True, ignore_invalid=True)
+        sp = NumericStreamProcessor(path, flatten=True, ignore_invalid=True)
         parsed = list(sp)
         self.assertEqual(parsed, [[1], [2], [3], [4]])
 
     def test_parse_1(self):
-        sp = StreamProcessor()
+        sp = NumericStreamProcessor()
         self.assertEqual(int(1), sp._parse("1"))
         self.assertEqual(float(5.5), sp._parse("5.5"))
 
     def test_parse_2(self):
-        sp = StreamProcessor(ignore_invalid=False)
+        sp = NumericStreamProcessor(ignore_invalid=False)
         with self.assertRaises(StreamProcessingError) as err:
             sp._parse("a")
         self.assertEqual(err.exception._value, "a")
 
-        sp = StreamProcessor(ignore_invalid=True)
+        sp = NumericStreamProcessor(ignore_invalid=True)
         self.assertTrue(math.isnan(sp._parse("a")))
+
+    def test_parse_3(self):
+        sp = ForgivingStreamProcessor()
+        self.assertEqual(int(1), sp._parse("1"))
+        self.assertEqual(float(5.5), sp._parse("5.5"))
+        self.assertEqual("abc", sp._parse("abc"))
 
     @unittest.skip("not implemented yet")
     def test_encoding(self):

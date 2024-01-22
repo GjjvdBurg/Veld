@@ -3,13 +3,13 @@
 from collections import Counter
 
 from typing import List
+from typing import Union
 
 from ._plot import VeldPlotCommand
 
 
 class BarCountCommand(VeldPlotCommand):
     def __init__(self) -> None:
-
         super().__init__(
             name="barcount",
             title="Create a histogram with bars for all unique values in the stream",
@@ -17,11 +17,18 @@ class BarCountCommand(VeldPlotCommand):
 
     def register(self) -> None:
         super().register()
-        self.add_argument(
+        mug = self.add_mutually_exclusive_group()
+        mug.add_argument(
             "-r",
             "--relative",
             action="store_true",
             help="Plot relative counts (proportions) instead of counts",
+        )
+        mug.add_argument(
+            "-p",
+            "--percentage",
+            action="store_true",
+            help="Plot percentages instead of counts",
         )
         self.add_argument(
             "-w",
@@ -37,7 +44,9 @@ class BarCountCommand(VeldPlotCommand):
         )
 
     def handle(self) -> int:
-        all_values = self._consume_stream()
+        all_values: List[List[Union[float, str]]] = self._consume_stream(
+            keep_text=True
+        )
         if all_values is None:
             return 1
 
@@ -62,13 +71,22 @@ class BarCountCommand(VeldPlotCommand):
         w = self.args.width
 
         counters = [Counter(column) for column in all_values]
+        all_keys = sorted(
+            set().union(*[counter.keys() for counter in counters])
+        )
+        key_map = {key: i for i, key in enumerate(all_keys)}
         for i, counter in enumerate(counters):
-            xs = sorted(counter.keys())
-            ys: List[float] = [counter[x] for x in xs]
+            keys = sorted(counter.keys())
+            ys: List[float] = [counter[key] for key in keys]
+            xs = [key_map[key] for key in keys]
             xs = [x - w / 2 + (2 * i + 1) * w / n_col / 2 for x in xs]
             if self.args.relative:
                 ys = [y / sum(ys) for y in ys]
+            elif self.args.percentage:
+                ys = [y / sum(ys) * 100.0 for y in ys]
             self.plt.bar(xs, ys, width=w / n_col)
+
+        self.plt.xticks(list(range(len(all_keys))), all_keys)
 
         self.set_plot_attributes()
         self.plt.show()

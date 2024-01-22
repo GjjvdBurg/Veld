@@ -10,18 +10,24 @@ Copyright: (c) 2022, G.J.J. van den Burg
 
 """
 
+import abc
 import sys
 
+from typing import Generic
 from typing import Iterator
 from typing import List
 from typing import Optional
 from typing import TextIO
+from typing import TypeVar
+from typing import Union
 
 from .exceptions import StreamProcessingError
 from .utils import parse_numeric
 
+T = TypeVar("T")
 
-class StreamProcessor:
+
+class BaseStreamProcessor(Generic[T]):
     def __init__(
         self,
         path: Optional[str] = None,
@@ -37,7 +43,7 @@ class StreamProcessor:
         self._flatten = flatten
 
         self._stream: Optional[TextIO] = None
-        self._stream_iter: Optional[Iterator[List[float]]] = None
+        self._stream_iter: Optional[Iterator[List[T]]] = None
         self._last_line: Optional[str] = None
 
     @property
@@ -63,15 +69,15 @@ class StreamProcessor:
             return
         self._stream.close()
 
-    def __iter__(self) -> "StreamProcessor":
+    def __iter__(self) -> "BaseStreamProcessor":
         self._stream_iter = self.process_stream()
         return self
 
-    def __next__(self) -> List[float]:
+    def __next__(self) -> List[T]:
         assert self._stream_iter is not None
         return next(self._stream_iter)
 
-    def process_stream(self) -> Iterator[List[float]]:
+    def process_stream(self) -> Iterator[List[T]]:
         """Process the input stream"""
         for line in self.stream:
             self._last_line = line
@@ -94,6 +100,12 @@ class StreamProcessor:
                 yield values
         self.close_stream()
 
+    @abc.abstractmethod
+    def _parse(self, x: str) -> T:
+        pass
+
+
+class NumericStreamProcessor(BaseStreamProcessor[float]):
     def _parse(self, x: str) -> float:
         """Parse a string number, preserving type"""
         x = x.rstrip("\r\n")
@@ -105,3 +117,14 @@ class StreamProcessor:
             return float("nan")
         self.close_stream()
         raise StreamProcessingError(x)
+
+
+class ForgivingStreamProcessor(BaseStreamProcessor[Union[float, str]]):
+    def _parse(self, x: str) -> Union[str, float]:
+        """Parse a string number, preserving type"""
+        x = x.rstrip("\r\n")
+        try:
+            return parse_numeric(x)
+        except ValueError:
+            pass
+        return x

@@ -6,10 +6,16 @@
 
 from typing import List
 from typing import Optional
+from typing import TypeVar
 
 from wilderness import Command
 
-from veld.stream_processor import StreamProcessor
+from veld.exceptions import EmptyStreamError
+from veld.stream_processor import BaseStreamProcessor
+from veld.stream_processor import ForgivingStreamProcessor
+from veld.stream_processor import NumericStreamProcessor
+
+T = TypeVar("T")
 
 
 class VeldCommand(Command):
@@ -68,27 +74,35 @@ class VeldCommand(Command):
         self._processing_args_group = group
 
     def _get_stream_processor(
-        self, ignore_invalid: bool = False
-    ) -> StreamProcessor:
-        sp = StreamProcessor(
+        self, keep_text: bool = False
+    ) -> BaseStreamProcessor:
+        if keep_text:
+            return ForgivingStreamProcessor(
+                path=self.args.file,
+                sep=self.args.separator,
+                encoding=self.args.encoding,
+                flatten=self.args.flatten,
+                ignore_invalid=self.args.ignore,
+            )
+        return NumericStreamProcessor(
             path=self.args.file,
             sep=self.args.separator,
             encoding=self.args.encoding,
             flatten=self.args.flatten,
-            ignore_invalid=ignore_invalid or self.args.ignore,
+            ignore_invalid=self.args.ignore,
         )
-        return sp
 
-    def _consume_stream(
-        self, ignore_invalid: bool = False
-    ) -> Optional[List[List[float]]]:
+    def _consume_stream(self, keep_text: bool = False) -> List[List[T]]:
         """Read the data stream into memory as a list of columns"""
-        columns: Optional[List[List[float]]] = None
-        for row in self._get_stream_processor(ignore_invalid=ignore_invalid):
+        columns: Optional[List[List[T]]] = None
+        value: T
+        for row in self._get_stream_processor(keep_text=keep_text):
             for i, value in enumerate(row):
                 if columns is None:
                     columns = []
                     for j in range(len(row)):
                         columns.append([])
                 columns[i].append(value)
+        if columns is None:
+            raise EmptyStreamError()
         return columns

@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import sys
+
+from typing import List
+
+from veld.exceptions import StreamProcessingError
+
 from ._plot import VeldPlotCommand
 
 
@@ -47,7 +53,17 @@ class HistogramCommand(VeldPlotCommand):
         )
 
     def handle(self) -> int:
-        all_values = self._consume_stream()
+        try:
+            all_values: List[List[float]] = self._consume_stream()
+        except StreamProcessingError:
+            print(
+                "ERROR: Failed to parse some values in the stream, note that "
+                "histogram is meant for numerical values. Use barcount for "
+                "non-numerical histograms.",
+                file=sys.stderr,
+            )
+            raise
+
         self.plt.hist(
             all_values,
             bins=self.args.bins,

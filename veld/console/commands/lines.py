@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from typing import List
+
 from veld.core.cumsum import cumsum
 
 from ._plot import VeldPlotCommand
@@ -71,7 +73,7 @@ class LinesCommand(VeldPlotCommand):
         )
 
     def handle(self) -> int:
-        columns = self._consume_stream()
+        columns: List[List[float]] = self._consume_stream()
         if columns is None:
             return 1
 
