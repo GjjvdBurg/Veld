@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-"""Unit tests for max operator
+"""Unit tests for mean operator
 
 Author: G.J.J. van den Burg
 Copyright: (c) 2022, G.J.J. van den Burg

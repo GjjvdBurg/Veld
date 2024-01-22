@@ -1,4 +1,7 @@
-"""Unit tests for trimmed mean operator
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""Unit tests for trimmed mean function
 
 Author: G.J.J. van den Burg
 Copyright: (c) 2022, G.J.J. van den Burg
