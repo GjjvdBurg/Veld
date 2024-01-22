@@ -2,7 +2,7 @@
 
 from typing import List
 
-from veld.core.operators.trimmed_mean import trimmed_mean
+from veld.core.trimmed_mean import trimmed_mean
 
 from ._base import VeldCommand
 
