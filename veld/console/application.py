@@ -21,6 +21,7 @@ from .commands.lines import LinesCommand
 from .commands.log import LogCommand
 from .commands.math import AddCommand
 from .commands.math import DivideCommand
+from .commands.math import ModuloCommand
 from .commands.math import MultiplyCommand
 from .commands.math import SubtractCommand
 from .commands.max import MaxCommand
@@ -183,6 +184,7 @@ def build_application() -> Application:
     group.add(SubtractCommand())
     group.add(MultiplyCommand())
     group.add(DivideCommand())
+    group.add(ModuloCommand())
 
     group = app.add_group("plotting")
     group.add(LinesCommand())

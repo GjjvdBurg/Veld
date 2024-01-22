@@ -99,3 +99,20 @@ def test_divide(
 ) -> None:
     output = run_command("divide", args, values, tmp_path)
     assert output == expected
+
+
+@pytest.mark.parametrize(
+    ("values", "args", "expected"),
+    [
+        ([[2], [3], [4]], ["-v", "2"], [[0], [1], [0]]),
+        ([[5, 0], [2, 1], [3, 2]], ["-v", "3"], [[2, 0], [2, 1], [0, 2]]),
+    ],
+)
+def test_modulo(
+    values: List[List[float]],
+    args: List[str],
+    expected: List[List[float]],
+    tmp_path: Path,
+) -> None:
+    output = run_command("modulo", args, values, tmp_path)
+    assert output == expected

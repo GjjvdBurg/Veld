@@ -93,3 +93,27 @@ class DivideCommand(VeldCommand):
             outvalues = [val / self.args.value for val in values]
             print(self.args.separator.join(map(str, outvalues)))
         return 0
+
+
+class ModuloCommand(VeldCommand):
+    def __init__(self):
+        super().__init__(
+            name="modulo",  # spelled out to differentiate from mode
+            title="Compute the remainder of values in the stream",
+        )
+
+    def register(self):
+        super().register()
+        self.add_argument(
+            "-v",
+            "--value",
+            type=parse_numeric,
+            help="The divisor (modulus) of the modulo operation",
+            required=True,
+        )
+
+    def handle(self) -> int:
+        for values in self._get_stream_processor():
+            outvalues = [val % self.args.value for val in values]
+            print(self.args.separator.join(map(str, outvalues)))
+        return 0
