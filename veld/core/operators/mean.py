@@ -3,6 +3,7 @@
 from typing import Optional
 
 from ._base import BaseOperator
+from ._container import SingleResultContainer
 
 
 class MeanOperator(BaseOperator):
@@ -11,10 +12,10 @@ class MeanOperator(BaseOperator):
         self._count = 0
 
     @property
-    def result(self) -> Optional[float]:
+    def result(self) -> Optional[SingleResultContainer]:
         if self._total is None:
             return None
-        return self._total / self._count
+        return SingleResultContainer(self._total / self._count)
 
     def update(self, value: float) -> None:
         if self._total is None:

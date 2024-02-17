@@ -3,6 +3,7 @@
 from typing import Optional
 
 from ._base import BaseOperator
+from ._container import SingleResultContainer
 
 
 class MinOperator(BaseOperator):
@@ -10,8 +11,10 @@ class MinOperator(BaseOperator):
         self._minimum: Optional[float] = None
 
     @property
-    def result(self) -> Optional[float]:
-        return self._minimum
+    def result(self) -> Optional[SingleResultContainer]:
+        if self._minimum is None:
+            return None
+        return SingleResultContainer(self._minimum)
 
     def update(self, value: float) -> None:
         if self._minimum is None:

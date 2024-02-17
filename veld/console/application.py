@@ -37,6 +37,7 @@ from .commands.stdev import StandardDeviationCommand
 from .commands.sum import SumCommand
 from .commands.trimmed_mean import TrimmedMeanCommand
 from .commands.variance import VarianceCommand
+from .commands.summary import SummaryCommand
 
 
 class VeldApplication(Application):
@@ -153,6 +154,7 @@ def build_application() -> Application:
         "https://github.com/GjjvdBurg/Veld"
     )
 
+
     group = app.add_group("univariate statistics")
     group.add(SumCommand())
     group.add(MeanCommand())
@@ -162,6 +164,7 @@ def build_application() -> Application:
     group.add(VarianceCommand())
     group.add(QuantileCommand())
     group.add(TrimmedMeanCommand())
+    group.add(SummaryCommand())
 
     group = app.add_group("extreme values and counts")
     group.add(MinCommand())

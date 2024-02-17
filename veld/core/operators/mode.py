@@ -4,6 +4,7 @@ from typing import Dict
 from typing import Optional
 
 from ._base import BaseOperator
+from ._container import SingleResultContainer
 
 
 class ModeOperator(BaseOperator):
@@ -11,12 +12,12 @@ class ModeOperator(BaseOperator):
         self._counter: Optional[Dict[float, int]] = None
 
     @property
-    def result(self) -> Optional[float]:
+    def result(self) -> Optional[SingleResultContainer]:
         if self._counter is None:
             return None
         max_value = max(self._counter.values())
         max_keys = [k for k, v in self._counter.items() if v == max_value]
-        return min(max_keys)
+        return SingleResultContainer(min(max_keys))
 
     def update(self, value: float) -> None:
         if self._counter is None:

@@ -3,6 +3,7 @@
 from typing import Optional
 
 from ._base import BaseOperator
+from ._container import SingleResultContainer
 
 
 class MaxOperator(BaseOperator):
@@ -10,8 +11,10 @@ class MaxOperator(BaseOperator):
         self._maximum: Optional[float] = None
 
     @property
-    def result(self) -> Optional[float]:
-        return self._maximum
+    def result(self) -> Optional[SingleResultContainer]:
+        if self._maximum is None:
+            return None
+        return SingleResultContainer(self._maximum)
 
     def update(self, value: float) -> None:
         if self._maximum is None:

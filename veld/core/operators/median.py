@@ -4,6 +4,9 @@ from typing import List
 from typing import Optional
 
 from ._base import BaseOperator
+from ._container import SingleResultContainer
+
+# NOTE: MedianOperator is not streaming
 
 
 class MedianOperator(BaseOperator):
@@ -11,7 +14,7 @@ class MedianOperator(BaseOperator):
         self._values: Optional[List[float]] = None
 
     @property
-    def result(self) -> Optional[float]:
+    def result(self) -> Optional[SingleResultContainer]:
         if self._values is None:
             return None
         self._values.sort()
@@ -21,7 +24,7 @@ class MedianOperator(BaseOperator):
             median = self._values[i]
         else:
             median = (self._values[i - 1] + self._values[i]) / 2
-        return median
+        return SingleResultContainer(median)
 
     def update(self, value: float) -> None:
         if self._values is None:

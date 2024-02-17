@@ -12,6 +12,7 @@ License: See LICENSE file.
 import unittest
 
 from veld.core.operators import MedianOperator
+from veld.core.operators import SingleResultContainer
 
 
 class MedianOperatorTestCase(unittest.TestCase):
@@ -21,7 +22,7 @@ class MedianOperatorTestCase(unittest.TestCase):
         op = MedianOperator()
         for v in x:
             op.update(v)
-        self.assertEqual(op.result, exp)
+        self.assertEqual(op.result, SingleResultContainer(exp))
 
     def test_median_2(self):
         x = [1, 5, 6, 8]
@@ -29,7 +30,7 @@ class MedianOperatorTestCase(unittest.TestCase):
         op = MedianOperator()
         for v, e in zip(x, exps):
             op.update(v)
-            self.assertEqual(op.result, e)
+            self.assertEqual(op.result, SingleResultContainer(e))
 
     def test_median_3(self):
         op = MedianOperator()

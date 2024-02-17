@@ -13,6 +13,7 @@ License: See LICENSE file.
 import unittest
 
 from veld.core.operators import MeanOperator
+from veld.core.operators import SingleResultContainer
 
 
 class MeanOperatorTestCase(unittest.TestCase):
@@ -22,7 +23,7 @@ class MeanOperatorTestCase(unittest.TestCase):
         op = MeanOperator()
         for v, e in zip(values, exp):
             op.update(v)
-            self.assertEqual(op.result, e)
+            self.assertEqual(op.result, SingleResultContainer(e))
 
     def test_mean_2(self):
         op = MeanOperator()

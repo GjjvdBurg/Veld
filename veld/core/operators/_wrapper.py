@@ -7,6 +7,7 @@ from typing import Optional
 from typing import Type
 
 from ._base import BaseOperator
+from ._container import BaseResultContainer
 
 
 class OperatorWrapper:
@@ -19,12 +20,12 @@ class OperatorWrapper:
         self._multi: Optional[List[BaseOperator]] = None
 
     @property
-    def row_result(self) -> List[Optional[float]]:
+    def row_result(self) -> List[Optional[BaseResultContainer]]:
         assert self._multi is not None
         return [op.result for op in self._multi]
 
     @property
-    def result(self) -> Optional[float]:
+    def result(self) -> Optional[BaseResultContainer]:
         assert self._single is not None
         return self._single.result
 

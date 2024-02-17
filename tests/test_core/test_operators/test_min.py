@@ -12,6 +12,7 @@ License: See LICENSE file.
 import unittest
 
 from veld.core.operators import MinOperator
+from veld.core.operators import SingleResultContainer
 
 
 class MinOperatorTestCase(unittest.TestCase):
@@ -21,7 +22,7 @@ class MinOperatorTestCase(unittest.TestCase):
         op = MinOperator()
         for v, e in zip(x, exp):
             op.update(v)
-            self.assertEqual(op.result, e)
+            self.assertEqual(op.result, SingleResultContainer(e))
 
     def test_min_2(self):
         op = MinOperator()

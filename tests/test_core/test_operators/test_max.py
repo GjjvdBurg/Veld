@@ -12,6 +12,7 @@ License: See LICENSE file.
 import unittest
 
 from veld.core.operators import MaxOperator
+from veld.core.operators import SingleResultContainer
 
 
 class MaxOperatorTestCase(unittest.TestCase):
@@ -21,7 +22,7 @@ class MaxOperatorTestCase(unittest.TestCase):
         op = MaxOperator()
         for v, e in zip(x, exp):
             op.update(v)
-            self.assertEqual(op.result, e)
+            self.assertEqual(op.result, SingleResultContainer(e))
 
     def test_max_2(self):
         op = MaxOperator()

@@ -4,6 +4,8 @@ import abc
 
 from typing import Optional
 
+from ._container import BaseResultContainer
+
 
 class BaseOperator(metaclass=abc.ABCMeta):
     @abc.abstractmethod
@@ -11,7 +13,7 @@ class BaseOperator(metaclass=abc.ABCMeta):
         """Initialize the operator"""
 
     @abc.abstractproperty
-    def result(self) -> Optional[float]:
+    def result(self) -> Optional[BaseResultContainer]:
         """Return the collected result of this operator"""
 
     @abc.abstractmethod

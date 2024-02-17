@@ -7,6 +7,12 @@ from .median import MedianOperator
 from .min import MinOperator
 from .mode import ModeOperator
 from .sum import SumOperator
+from .summary import SummaryOperator
+from ._container import (
+    BaseResultContainer,
+    SingleResultContainer,
+    SummaryResultContainer,
+)
 
 __all__ = [
     "CountOperator",
@@ -16,4 +22,8 @@ __all__ = [
     "MinOperator",
     "ModeOperator",
     "SumOperator",
+    "SummaryOperator",
+    "BaseResultContainer",
+    "SingleResultContainer",
+    "SummaryResultContainer",
 ]

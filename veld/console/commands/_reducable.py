@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from typing import Type
+from typing import Type, List, Optional, Any
 
 from veld.core.operators._base import BaseOperator
+from veld.core.operators._container import (
+    BaseResultContainer,
+    SingleResultContainer,
+    SummaryResultContainer,
+)
 from veld.core.operators._wrapper import OperatorWrapper
 
 from ._base import VeldCommand
@@ -12,6 +17,7 @@ class ReducableCommand(VeldCommand):
     def __init__(self, operator: Type[BaseOperator], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._operator = operator
+        self._printed_header = False # TODO: refactor
 
     def register(self):
         super().register()
@@ -31,12 +37,93 @@ class ReducableCommand(VeldCommand):
 
     def handle(self) -> int:
         wrapper = OperatorWrapper(self._operator, reduce=self.args.reduce)
-        sep = self.args.separator
-        for row in self._get_stream_processor():
+        for idx, row in enumerate(self._get_stream_processor()):
             wrapper.update(row)
             if self.args.reduce:
-                print(str(wrapper.result))
+                if wrapper.result is None:
+                    continue
+                self._print_row_result(idx, wrapper.result)
                 wrapper.reset()
         if not self.args.reduce:
-            print(sep.join(map(str, wrapper.row_result)))
+            self._print_end_result(wrapper.row_result)
         return 0
+
+    def _print_row_result(
+        self, index: int, container: BaseResultContainer
+    ) -> None:
+        if isinstance(container, SingleResultContainer):
+            return print(str(container.value))
+        if not isinstance(container, SummaryResultContainer):
+            raise ValueError(f"Unhandled container type: {type(container)}")
+        sep = self.args.separator
+        if not self._printed_header:
+            print(
+                sep.join(
+                    [
+                        "Row",
+                        "Count",
+                        "Maximum",
+                        "Minimum",
+                        "Sum",
+                        "Mean",
+                        "Mode",
+                    ]
+                )
+            )
+            self._printed_header = True
+        print(
+            sep.join(
+                map(
+                    str,
+                    [
+                        index,
+                        container.count,
+                        container.maximum,
+                        container.minimum,
+                        container.total,
+                        container.mean,
+                        container.mode,
+                    ],
+                )
+            )
+        )
+
+    def _print_end_result(
+        self, containers: List[Optional[BaseResultContainer]]
+    ) -> None:
+        sep = self.args.separator
+        if all(
+            isinstance(container, SingleResultContainer)
+            for container in containers
+        ):
+            row = []
+            for container in containers:
+                assert isinstance(container, SingleResultContainer)
+                row.append("" if container is None else str(container.value))
+            return print(sep.join(row))
+
+        table: List[List[Any]] = [
+            [
+                "Count",
+                "Maximum",
+                "Minimum",
+                "Sum",
+                "Mean",
+                "Mode",
+            ],
+        ]
+        for container in containers:
+            assert isinstance(container, SummaryResultContainer)
+            table.append(
+                [
+                    container.count,
+                    container.maximum,
+                    container.minimum,
+                    container.total,
+                    container.mean,
+                    container.mode,
+                ]
+            )
+
+        transposed = list(map(list, zip(*table)))
+        print("\n".join([sep.join(map(str, row)) for row in transposed]))

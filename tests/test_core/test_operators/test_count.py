@@ -12,6 +12,7 @@ License: See LICENSE file.
 import unittest
 
 from veld.core.operators import CountOperator
+from veld.core.operators import SingleResultContainer
 
 
 class CountOperatorTestCase(unittest.TestCase):
@@ -21,7 +22,7 @@ class CountOperatorTestCase(unittest.TestCase):
         op = CountOperator()
         for v, e in zip(x, exp):
             op.update(v)
-            self.assertEqual(op.result, e)
+            self.assertEqual(op.result, SingleResultContainer(e))
 
     def test_count_2(self):
         op = CountOperator()
