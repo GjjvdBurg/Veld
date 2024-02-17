@@ -25,6 +25,13 @@ class MinOperatorTestCase(unittest.TestCase):
             self.assertEqual(op.result, SingleResultContainer(e))
 
     def test_min_2(self):
+        x = ["a", "b", "c", "a", "b", "c", "a", "a", "b", "c", "a", "b"]
+        op = MinOperator()
+        for v in x:
+            op.update(v)
+        self.assertEqual(op.result, SingleResultContainer("a"))
+
+    def test_min_3(self):
         op = MinOperator()
         self.assertIsNone(op.result)
 

@@ -15,7 +15,9 @@ class ModeCommand(ReducableCommand):
             description=(
                 "This command finds the modal (most common) value of the data "
                 "stream. If there are multiple values with the same count, "
-                "the smallest value is returned."
+                "the smallest value is returned.\n\n"
+                "This command can be applied to both numeric and non-numeric "
+                "data streams."
             ),
         )
 

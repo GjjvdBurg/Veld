@@ -9,98 +9,45 @@ License: See LICENSE file.
 
 """
 
-import os
-import shutil
-import tempfile
-import unittest
+from pathlib import Path
 
-from wilderness import Tester
+from typing import List
 
-from veld.console import build_application
+import pytest
 
-
-class MaxCommandTestCase(unittest.TestCase):
-    def setUp(self):
-        self._working_dir = tempfile.mkdtemp(prefix="veld_test_max_")
-
-    def tearDown(self):
-        shutil.rmtree(self._working_dir)
-
-    def test_max_1(self):
-        path = os.path.join(self._working_dir, "stream.txt")
-        with open(path, "w") as fp:
-            fp.write("1\n")
-            fp.write("5\n")
-            fp.write("6\n")
-
-        exp = "6"
-
-        app = build_application()
-        tester = Tester(app)
-        tester.test_command("max", [path])
-
-        stdout = tester.get_stdout()
-        assert stdout is not None
-        out = stdout.strip()
-        self.assertEqual(out, exp)
-
-    def test_max_2(self):
-        path = os.path.join(self._working_dir, "stream.txt")
-        with open(path, "w") as fp:
-            fp.write("-1\t8\n")
-            fp.write("5\t2\n")
-            fp.write("6\t-10\n")
-            fp.write("8\t11\n")
-
-        exp = "8\t11"
-
-        app = build_application()
-        tester = Tester(app)
-        tester.test_command("max", [path])
-
-        stdout = tester.get_stdout()
-        assert stdout is not None
-        out = stdout.strip()
-        self.assertEqual(out, exp)
-
-    def test_max_3(self):
-        path = os.path.join(self._working_dir, "stream.txt")
-        with open(path, "w") as fp:
-            fp.write("1 8\n")
-            fp.write("5 2\n")
-            fp.write("6 -10\n")
-            fp.write("8 11\n")
-
-        exp = "11"
-
-        app = build_application()
-        tester = Tester(app)
-        tester.test_command("max", [path, "--flatten", "-s", " "])
-
-        stdout = tester.get_stdout()
-        assert stdout is not None
-        out = stdout.strip()
-        self.assertEqual(out, exp)
-
-    def test_max_4(self):
-        path = os.path.join(self._working_dir, "stream.txt")
-        with open(path, "w") as fp:
-            fp.write("-1\t8\n")
-            fp.write("5\t2\n")
-            fp.write("6\t-10\n")
-            fp.write("8\t11\n")
-
-        exp = "\n".join(["8", "5", "6", "11"])
-
-        app = build_application()
-        tester = Tester(app)
-        tester.test_command("max", [path, "--reduce"])
-
-        stdout = tester.get_stdout()
-        assert stdout is not None
-        out = stdout.strip()
-        self.assertEqual(out, exp)
+from .helpers import run_command
 
 
-if __name__ == "__main__":
-    unittest.main()
+@pytest.mark.parametrize(
+    ("values", "args", "expected"),
+    [
+        (
+            [[1], [5], [6]],
+            [],
+            [[6]],
+        ),
+        (
+            [[-1, 8], [5, 2], [6, -10], [8, 11]],
+            [],
+            [[8, 11]],
+        ),
+        (
+            [[-1, 8], [5, 2], [6, -10], [8, 11]],
+            ["--flatten"],
+            [[11]],
+        ),
+        (
+            [[-1, 8], [5, 2], [6, -10], [8, 11]],
+            ["--reduce"],
+            [[8], [5], [6], [11]],
+        ),
+    ],
+)
+def test_max(
+    values: List[List[float]],
+    args: List[str],
+    expected: List[List[float]],
+    tmp_path: Path,
+) -> None:
+    output = run_command("max", args, values, tmp_path)
+    assert output == expected

@@ -8,6 +8,7 @@ from typing import List
 from wilderness import Tester
 
 from veld.console import build_application
+from veld.utils import parse_numeric
 
 
 def run_command(
@@ -25,6 +26,7 @@ def run_command(
     assert stdout is not None
     content = stdout.strip()
     output = [
-        list(map(float, line.split("\t"))) for line in content.split("\n")
+        list(map(parse_numeric, line.split("\t")))
+        for line in content.split("\n")
     ]
     return output

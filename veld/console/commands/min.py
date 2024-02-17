@@ -11,4 +11,10 @@ class MinCommand(ReducableCommand):
             operator=MinOperator,
             name="min",
             title="Find the minimum of the values in the data stream",
+            description=(
+                "This command finds the smallest value in the data stream. It "
+                "can be applied to both numeric and non-numeric values. For "
+                "non-numeric values (i.e., strings) the smallest alphabetical "
+                "value is returned."
+            ),
         )

@@ -13,6 +13,10 @@ class CountCommand(ReducableCommand):
             operator=CountOperator,
             name="count",
             title="Count the number of values in the data stream",
+            description=(
+                "This command can be applied to both numeric and non-numeric "
+                "data streams."
+            ),
         )
 
     def _get_stream_processor(
