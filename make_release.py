@@ -20,6 +20,7 @@ import subprocess
 import sys
 import tempfile
 import webbrowser
+import collections
 
 from typing import Dict
 
@@ -165,15 +166,15 @@ class GitToMain(Step):
 
 
 class UpdateChangelog(Step):
-
     _nice_name = {
         "feat": "Features",
         "docs": "Documentation",
         "style": "Code style",
         "build": "Build",
         "test": "Testing",
+        "other": "Other",
     }
-    _type_sort = ["feat", "test", "docs", "build", "style"]
+    _type_sort = ["feat", "test", "docs", "build", "style", "other"]
 
     def action(self, context):
         self.instruct(
@@ -192,11 +193,16 @@ class UpdateChangelog(Step):
         )
         commits = commits.split("\n")
         commits.sort()
-        by_type = {}
+        by_type = collections.defaultdict(list)
         for commit in commits:
-            ctype, msg = commit.split(":", maxsplit=1)
-            if not ctype in by_type:
-                by_type[ctype] = []
+            if ":" not in commit:
+                ctype = "other"
+                msg = commit
+            else:
+                ctype, msg = commit.split(":", maxsplit=1)
+            if ctype not in self._nice_name:
+                ctype = "other"
+                msg = commit
             by_type[ctype].append(msg.strip())
 
         ctypes = sorted(by_type.keys(), key=lambda k: self._type_sort.index(k))
@@ -235,7 +241,7 @@ class RunTests(Step):
 class BumpVersionPackage(Step):
     def action(self, context):
         self.instruct("Update __version__.py with new version")
-        self.execute(f"vi {context['pkgname']}/__version__.py")
+        self.system(f"vi {context['pkgname']}/__version__.py")
 
     def post(self, context):
         wait_for_enter()
