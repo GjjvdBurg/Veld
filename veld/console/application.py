@@ -38,6 +38,7 @@ from .commands.sum import SumCommand
 from .commands.trimmed_mean import TrimmedMeanCommand
 from .commands.variance import VarianceCommand
 from .commands.summary import SummaryCommand
+from .commands.frequency import FrequencyCommand
 
 
 class VeldApplication(Application):
@@ -154,7 +155,6 @@ def build_application() -> Application:
         "https://github.com/GjjvdBurg/Veld"
     )
 
-
     group = app.add_group("univariate statistics")
     group.add(SumCommand())
     group.add(MeanCommand())
@@ -170,6 +170,7 @@ def build_application() -> Application:
     group.add(MinCommand())
     group.add(MaxCommand())
     group.add(CountCommand())
+    group.add(FrequencyCommand())
 
     group = app.add_group("filtering values")
     group.add(LessThanCommand())

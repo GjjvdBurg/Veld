@@ -3,12 +3,20 @@
 from pathlib import Path
 
 from typing import Any
-from typing import List
+from typing import List, Union
 
 from wilderness import Tester
 
 from veld.console import build_application
 from veld.utils import parse_numeric
+
+
+def maybe_parse(x: str) -> Union[str, float]:
+    try:
+        return parse_numeric(x)
+    except ValueError:
+        pass
+    return x
 
 
 def run_command(
@@ -26,7 +34,7 @@ def run_command(
     assert stdout is not None
     content = stdout.strip()
     output = [
-        list(map(parse_numeric, line.split("\t")))
+        list(map(maybe_parse, line.split("\t")))
         for line in content.split("\n")
     ]
     return output
