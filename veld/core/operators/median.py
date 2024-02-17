@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import math
+
 from typing import List
 from typing import Optional
 
@@ -27,6 +29,8 @@ class MedianOperator(BaseOperator):
         return SingleResultContainer(median)
 
     def update(self, value: float) -> None:
+        if math.isnan(value):
+            return
         if self._values is None:
             self._values = []
         self._values.append(value)

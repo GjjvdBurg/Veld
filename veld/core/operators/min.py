@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from typing import Optional
+import math
+
+from typing import Optional, Union
 
 from ._base import BaseOperator
 from ._container import SingleResultContainer
@@ -8,7 +10,7 @@ from ._container import SingleResultContainer
 
 class MinOperator(BaseOperator):
     def __init__(self):
-        self._minimum: Optional[float] = None
+        self._minimum: Optional[Union[float, str]] = None
 
     @property
     def result(self) -> Optional[SingleResultContainer]:
@@ -16,7 +18,9 @@ class MinOperator(BaseOperator):
             return None
         return SingleResultContainer(self._minimum)
 
-    def update(self, value: float) -> None:
+    def update(self, value: Union[float, str]) -> None:
+        if isinstance(value, float) and math.isnan(value):
+            return
         if self._minimum is None:
             self._minimum = value
         self._minimum = min(self._minimum, value)

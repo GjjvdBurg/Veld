@@ -3,6 +3,7 @@
 from veld.core.operators import ModeOperator
 
 from ._reducable import ReducableCommand
+from veld.stream_processor import BaseStreamProcessor
 
 
 class ModeCommand(ReducableCommand):
@@ -17,3 +18,8 @@ class ModeCommand(ReducableCommand):
                 "the smallest value is returned."
             ),
         )
+
+    def _get_stream_processor(
+        self, keep_text: bool = False
+    ) -> BaseStreamProcessor:
+        return super()._get_stream_processor(keep_text=True)

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from typing import Optional
+import math
+
+from typing import Optional, Union
 
 from ._base import BaseOperator
 from ._container import SingleResultContainer
@@ -16,6 +18,8 @@ class CountOperator(BaseOperator):
             return None
         return SingleResultContainer(self._count)
 
-    def update(self, value: float) -> None:
+    def update(self, value: Union[float, str]) -> None:
+        if isinstance(value, float) and math.isnan(value):
+            return None
         self._count = 0 if self._count is None else self._count
         self._count += 1

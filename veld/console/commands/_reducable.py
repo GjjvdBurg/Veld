@@ -17,7 +17,7 @@ class ReducableCommand(VeldCommand):
     def __init__(self, operator: Type[BaseOperator], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._operator = operator
-        self._printed_header = False # TODO: refactor
+        self._printed_header = False  # TODO: refactor
 
     def register(self):
         super().register()
@@ -62,11 +62,11 @@ class ReducableCommand(VeldCommand):
                     [
                         "Row",
                         "Count",
-                        "Maximum",
                         "Minimum",
-                        "Sum",
+                        "Maximum",
                         "Mean",
                         "Mode",
+                        "Sum",
                     ]
                 )
             )
@@ -78,11 +78,11 @@ class ReducableCommand(VeldCommand):
                     [
                         index,
                         container.count,
-                        container.maximum,
                         container.minimum,
-                        container.total,
-                        container.mean,
+                        container.maximum,
+                        "-" if container.mean is None else container.mean,
                         container.mode,
+                        "-" if container.total is None else container.total,
                     ],
                 )
             )
@@ -105,11 +105,11 @@ class ReducableCommand(VeldCommand):
         table: List[List[Any]] = [
             [
                 "Count",
-                "Maximum",
                 "Minimum",
-                "Sum",
+                "Maximum",
                 "Mean",
                 "Mode",
+                "Sum",
             ],
         ]
         for container in containers:
@@ -117,11 +117,11 @@ class ReducableCommand(VeldCommand):
             table.append(
                 [
                     container.count,
-                    container.maximum,
                     container.minimum,
-                    container.total,
-                    container.mean,
+                    container.maximum,
+                    "-" if container.mean is None else container.mean,
                     container.mode,
+                    "-" if container.total is None else container.total,
                 ]
             )
 

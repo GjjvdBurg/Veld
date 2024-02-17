@@ -4,6 +4,7 @@
 
 
 from dataclasses import dataclass
+from typing import Union, Optional
 
 
 @dataclass(frozen=True)
@@ -13,14 +14,19 @@ class BaseResultContainer:
 
 @dataclass(frozen=True)
 class SingleResultContainer(BaseResultContainer):
+    value: Union[float, str]
+
+
+@dataclass(frozen=True)
+class SingleResultContainerNumeric(SingleResultContainer):
     value: float
 
 
 @dataclass(frozen=True)
 class SummaryResultContainer(BaseResultContainer):
-    count: float
-    maximum: float
-    minimum: float
-    mean: float
-    mode: float
-    total: float
+    count: Union[float, str]
+    maximum: Union[float, str]
+    minimum: Union[float, str]
+    mean: Optional[float]
+    mode: Union[float, str]
+    total: Optional[float]

@@ -12,7 +12,7 @@ License: See LICENSE file.
 import unittest
 
 from veld.core.operators import SumOperator
-from veld.core.operators import SingleResultContainer
+from veld.core.operators._container import SingleResultContainerNumeric
 
 
 class SumOperatorTestCase(unittest.TestCase):
@@ -22,7 +22,7 @@ class SumOperatorTestCase(unittest.TestCase):
         op = SumOperator()
         for v, e in zip(x, exp):
             op.update(v)
-            self.assertEqual(op.result, SingleResultContainer(e))
+            self.assertEqual(op.result, SingleResultContainerNumeric(e))
 
     def test_sum_2(self):
         op = SumOperator()

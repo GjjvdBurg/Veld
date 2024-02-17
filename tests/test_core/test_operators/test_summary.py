@@ -23,10 +23,29 @@ from veld.core.operators._container import SummaryResultContainer
         (
             [1.0, 2.0, 3.0, 4.0, 5.0],
             SummaryResultContainer(
-                count=5, maximum=5, minimum=1, mean=3, mode=1, total=15
+                count=5,
+                maximum=5,
+                minimum=1,
+                mean=3,
+                mode=1,
+                total=15,
             ),
         ),
-        ([], None,),
+        (
+            ['a', 'b', 'c', 'd', 'a', 'b', 'z'],
+            SummaryResultContainer(
+                count=7,
+                maximum='z',
+                minimum='a',
+                mean=None,
+                mode='a',
+                total=None,
+            ),
+        ),
+        (
+            [],
+            None,
+        ),
     ],
 )
 def test_summary(

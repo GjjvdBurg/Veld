@@ -13,7 +13,7 @@ import pytest
 
 from typing import List, Any
 
-from veld.core.operators import CountOperator
+from veld.core.operators import ModeOperator
 from veld.core.operators import SingleResultContainer
 
 
@@ -21,16 +21,20 @@ from veld.core.operators import SingleResultContainer
     ("values", "expected"),
     [
         (
-            [4, 8, 2],
-            SingleResultContainer(3),
+            [4, 2, 8, 2],
+            SingleResultContainer(2),
         ),
         (
-            [4, 8, float('nan'), 2],
-            SingleResultContainer(3),
+            [4, 2, 8, 2, 1, 1],
+            SingleResultContainer(1),
         ),
         (
-            ["a", "b", "c", "d"],
-            SingleResultContainer(4),
+            [4, 2, float("nan"), 2],
+            SingleResultContainer(2),
+        ),
+        (
+            ["a", "b", "b", "d"],
+            SingleResultContainer("b"),
         ),
         (
             [],
@@ -42,7 +46,7 @@ def test_count(
     values: List[Any],
     expected: int,
 ) -> None:
-    operator = CountOperator()
+    operator = ModeOperator()
     for value in values:
         operator.update(value)
     assert operator.result == expected

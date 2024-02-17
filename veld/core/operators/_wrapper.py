@@ -37,16 +37,12 @@ class OperatorWrapper:
         if self._single is None:
             self._single = self._operator_class()
         for val in values:
-            if math.isnan(val):
-                continue
             self._single.update(val)
 
     def update_multi(self, values: List[float]) -> None:
         if self._multi is None:
             self._multi = [self._operator_class() for val in values]
         for op, val in zip(self._multi, values):
-            if math.isnan(val):
-                continue
             op.update(val)
 
     def update(self, values: List[float]) -> None:
