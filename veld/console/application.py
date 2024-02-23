@@ -39,6 +39,7 @@ from .commands.trimmed_mean import TrimmedMeanCommand
 from .commands.variance import VarianceCommand
 from .commands.summary import SummaryCommand
 from .commands.frequency import FrequencyCommand
+from .commands.passthrough import PassthroughCommand
 
 
 class VeldApplication(Application):
@@ -196,7 +197,9 @@ def build_application() -> Application:
     group.add(HistogramCommand())
     group.add(BarCountCommand())
 
-    group = app.add_group("hypothesis testing")
+    group = app.add_group("other")
+    # TODO: add hypothesis testing group back when we have more
     group.add(PairedTTestCommand())
+    group.add(PassthroughCommand())
 
     return app
