@@ -40,6 +40,7 @@ from .commands.variance import VarianceCommand
 from .commands.summary import SummaryCommand
 from .commands.frequency import FrequencyCommand
 from .commands.passthrough import PassthroughCommand
+from .commands.product import ProductCommand
 
 
 class VeldApplication(Application):
@@ -185,6 +186,7 @@ def build_application() -> Application:
     group.add(LogCommand())
     group.add(RoundCommand())
     group.add(CumSumCommand())
+    group.add(ProductCommand())
     group.add(AddCommand())
     group.add(SubtractCommand())
     group.add(MultiplyCommand())
