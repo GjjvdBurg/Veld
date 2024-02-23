@@ -19,3 +19,4 @@ class PassthroughCommand(VeldCommand):
     def handle(self) -> int:
         for values in self._get_stream_processor(keep_text=True):
             print(self.args.separator.join(map(str, values)))
+        return 0
