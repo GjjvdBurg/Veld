@@ -9,9 +9,10 @@ License: See LICENSE file.
 
 """
 
-import pytest
+from typing import Any
+from typing import List
 
-from typing import List, Any
+import pytest
 
 from veld.core.operators import ModeOperator
 from veld.core.operators import SingleResultContainer

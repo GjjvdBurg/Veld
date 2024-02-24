@@ -2,7 +2,11 @@
 
 import math
 
-from typing import Counter, Optional, Union, List, Tuple
+from typing import Counter
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Union
 
 
 class FrequencyTableBuilder:

@@ -6,8 +6,8 @@ from typing import List
 from typing import Optional
 from typing import Type
 
-from ._base import BaseOperator
-from ._container import BaseResultContainer
+from veld.core.operators._base import BaseOperator
+from veld.core.operators._container import BaseResultContainer
 
 
 class OperatorWrapper:

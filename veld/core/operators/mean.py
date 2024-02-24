@@ -4,8 +4,8 @@ import math
 
 from typing import Optional
 
-from ._base import BaseOperator
-from ._container import SingleResultContainerNumeric
+from veld.core.operators._base import BaseOperator
+from veld.core.operators._container import SingleResultContainerNumeric
 
 
 class MeanOperator(BaseOperator):

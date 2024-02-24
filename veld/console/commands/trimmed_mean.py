@@ -2,9 +2,8 @@
 
 from typing import List
 
+from veld.console.commands._base import VeldCommand
 from veld.core.trimmed_mean import trimmed_mean
-
-from ._base import VeldCommand
 
 
 class TrimmedMeanCommand(VeldCommand):

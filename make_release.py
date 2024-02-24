@@ -13,6 +13,7 @@ Date: 2019-07-23
 """
 
 import abc
+import collections
 import os
 import re
 import shutil
@@ -20,7 +21,6 @@ import subprocess
 import sys
 import tempfile
 import webbrowser
-import collections
 
 from typing import Dict
 

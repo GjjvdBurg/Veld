@@ -9,9 +9,10 @@ License: See LICENSE file.
 
 """
 
-import pytest
+from typing import Any
+from typing import List
 
-from typing import List, Any
+import pytest
 
 from veld.core.operators import CountOperator
 from veld.core.operators import SingleResultContainer
@@ -25,7 +26,7 @@ from veld.core.operators import SingleResultContainer
             SingleResultContainer(3),
         ),
         (
-            [4, 8, float('nan'), 2],
+            [4, 8, float("nan"), 2],
             SingleResultContainer(3),
         ),
         (

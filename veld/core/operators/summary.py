@@ -2,16 +2,17 @@
 
 import math
 
-from typing import Optional, Union
+from typing import Optional
+from typing import Union
 
-from ._base import BaseOperator
-from ._container import SummaryResultContainer
-from .count import CountOperator
-from .max import MaxOperator
-from .min import MinOperator
-from .mode import ModeOperator
-from .sum import SumOperator
-from .mean import MeanOperator
+from veld.core.operators._base import BaseOperator
+from veld.core.operators._container import SummaryResultContainer
+from veld.core.operators.count import CountOperator
+from veld.core.operators.max import MaxOperator
+from veld.core.operators.mean import MeanOperator
+from veld.core.operators.min import MinOperator
+from veld.core.operators.mode import ModeOperator
+from veld.core.operators.sum import SumOperator
 
 
 class SummaryOperator(BaseOperator):

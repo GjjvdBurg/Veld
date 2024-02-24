@@ -4,7 +4,9 @@
 
 
 from dataclasses import dataclass
-from typing import Union, Optional
+
+from typing import Optional
+from typing import Union
 
 
 @dataclass(frozen=True)

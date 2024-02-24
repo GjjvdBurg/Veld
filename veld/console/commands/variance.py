@@ -3,9 +3,8 @@
 from typing import List
 from typing import Optional
 
+from veld.console.commands._base import VeldCommand
 from veld.core.streamed_variance import StreamedVariance
-
-from ._base import VeldCommand
 
 
 class VarianceCommand(VeldCommand):

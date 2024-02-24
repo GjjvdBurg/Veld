@@ -2,9 +2,8 @@
 
 from typing import List
 
+from veld.console.commands._plot import VeldPlotCommand
 from veld.core.cumsum import cumsum
-
-from ._plot import VeldPlotCommand
 
 
 class LinesCommand(VeldPlotCommand):

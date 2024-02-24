@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from veld.console.commands._reducable import ReducableCommand
 from veld.core.operators import CountOperator
-
-from ._reducable import ReducableCommand
-
 from veld.stream_processor import BaseStreamProcessor
 
 

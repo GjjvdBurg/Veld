@@ -2,7 +2,7 @@
 
 
 def main():
-    from .console import build_application
+    from veld.console import build_application
 
     app = build_application()
     app.run()

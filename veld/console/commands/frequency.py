@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from ._base import VeldCommand
+from veld.console.commands._base import VeldCommand
 from veld.core.frequency import FrequencyTableBuilder
-from veld.exceptions import InvalidInputError, EmptyStreamError
+from veld.exceptions import EmptyStreamError
+from veld.exceptions import InvalidInputError
 from veld.stream_processor import BaseStreamProcessor
 
 

@@ -5,8 +5,8 @@ import math
 from typing import List
 from typing import Optional
 
-from ._base import BaseOperator
-from ._container import SingleResultContainer
+from veld.core.operators._base import BaseOperator
+from veld.core.operators._container import SingleResultContainer
 
 # NOTE: MedianOperator is not streaming
 

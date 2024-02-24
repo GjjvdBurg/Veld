@@ -11,7 +11,7 @@ License: See LICENSE file.
 
 import pytest
 
-from .helpers import run_command
+from tests.test_console.helpers import run_command
 
 
 @pytest.mark.parametrize(

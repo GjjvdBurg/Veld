@@ -4,7 +4,7 @@ import abc
 
 from typing import Optional
 
-from ._container import BaseResultContainer
+from veld.core.operators._container import BaseResultContainer
 
 
 class BaseOperator(metaclass=abc.ABCMeta):

@@ -2,10 +2,11 @@
 
 import math
 
-from typing import Optional, Union
+from typing import Optional
+from typing import Union
 
-from ._base import BaseOperator
-from ._container import SingleResultContainer
+from veld.core.operators._base import BaseOperator
+from veld.core.operators._container import SingleResultContainer
 
 
 class MaxOperator(BaseOperator):

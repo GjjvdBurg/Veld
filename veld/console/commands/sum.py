@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from veld.console.commands._reducable import ReducableCommand
 from veld.core.operators import SumOperator
-
-from ._reducable import ReducableCommand
 
 
 class SumCommand(ReducableCommand):

@@ -1,6 +1,5 @@
+from veld.console.commands._base import VeldCommand
 from veld.utils import parse_numeric
-
-from ._base import VeldCommand
 
 
 class AddCommand(VeldCommand):

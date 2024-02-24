@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from ._base import VeldCommand
+from veld.console.commands._base import VeldCommand
 
 
 class PassthroughCommand(VeldCommand):

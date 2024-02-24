@@ -3,11 +3,10 @@
 import json
 import math
 
+from veld.console.commands._base import VeldCommand
 from veld.core.betain import betain
 from veld.core.streamed_variance import StreamedVariance
 from veld.exceptions import InvalidInputError
-
-from ._base import VeldCommand
 
 
 class PairedTTestCommand(VeldCommand):

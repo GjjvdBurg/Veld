@@ -3,7 +3,7 @@
 from typing import List
 from typing import Optional
 
-from ._base import VeldCommand
+from veld.console.commands._base import VeldCommand
 
 
 class CumSumCommand(VeldCommand):

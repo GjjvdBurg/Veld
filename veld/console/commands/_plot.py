@@ -4,7 +4,7 @@ import importlib
 
 from types import ModuleType
 
-from ._base import VeldCommand
+from veld.console.commands._base import VeldCommand
 
 
 class VeldPlotCommand(VeldCommand):

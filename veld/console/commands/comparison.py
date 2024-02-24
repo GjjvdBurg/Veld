@@ -4,7 +4,7 @@ import enum
 
 from typing import Callable
 
-from ._base import VeldCommand
+from veld.console.commands._base import VeldCommand
 
 
 class ComparisonOperator(enum.Enum):

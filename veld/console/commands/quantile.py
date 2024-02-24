@@ -4,7 +4,7 @@ from typing import List
 
 import numpy as np
 
-from ._base import VeldCommand
+from veld.console.commands._base import VeldCommand
 
 
 class QuantileCommand(VeldCommand):

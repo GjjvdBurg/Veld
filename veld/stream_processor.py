@@ -21,8 +21,8 @@ from typing import TextIO
 from typing import TypeVar
 from typing import Union
 
-from .exceptions import StreamProcessingError
-from .utils import parse_numeric
+from veld.exceptions import StreamProcessingError
+from veld.utils import parse_numeric
 
 T = TypeVar("T")
 

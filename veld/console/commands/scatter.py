@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import List
 
-from ._plot import VeldPlotCommand
+from veld.console.commands._plot import VeldPlotCommand
 
 
 class ScatterPlotCommand(VeldPlotCommand):

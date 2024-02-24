@@ -9,12 +9,12 @@ License: See LICENSE file.
 
 """
 
-import pytest
-
 from typing import List
 
-from veld.core.operators.summary import SummaryOperator
+import pytest
+
 from veld.core.operators._container import SummaryResultContainer
+from veld.core.operators.summary import SummaryOperator
 
 
 @pytest.mark.parametrize(
@@ -32,13 +32,13 @@ from veld.core.operators._container import SummaryResultContainer
             ),
         ),
         (
-            ['a', 'b', 'c', 'd', 'a', 'b', 'z'],
+            ["a", "b", "c", "d", "a", "b", "z"],
             SummaryResultContainer(
                 count=7,
-                maximum='z',
-                minimum='a',
+                maximum="z",
+                minimum="a",
                 mean=None,
-                mode='a',
+                mode="a",
                 total=None,
             ),
         ),

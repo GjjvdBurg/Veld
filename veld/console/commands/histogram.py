@@ -4,9 +4,8 @@ import sys
 
 from typing import List
 
+from veld.console.commands._plot import VeldPlotCommand
 from veld.exceptions import StreamProcessingError
-
-from ._plot import VeldPlotCommand
 
 
 class HistogramCommand(VeldPlotCommand):

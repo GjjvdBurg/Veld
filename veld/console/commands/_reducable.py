@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from typing import Type, List, Optional, Any
+from typing import Any
+from typing import List
+from typing import Optional
+from typing import Type
 
+from veld.console.commands._base import VeldCommand
 from veld.core.operators._base import BaseOperator
-from veld.core.operators._container import (
-    BaseResultContainer,
-    SingleResultContainer,
-    SummaryResultContainer,
-)
+from veld.core.operators._container import BaseResultContainer
+from veld.core.operators._container import SingleResultContainer
+from veld.core.operators._container import SummaryResultContainer
 from veld.core.operators._wrapper import OperatorWrapper
-
-from ._base import VeldCommand
 
 
 class ReducableCommand(VeldCommand):
@@ -48,6 +48,7 @@ class ReducableCommand(VeldCommand):
             self._print_end_result(wrapper.row_result)
         return 0
 
+    # TODO: testing
     def _print_row_result(
         self, index: int, container: BaseResultContainer
     ) -> None:

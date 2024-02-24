@@ -3,7 +3,8 @@
 from pathlib import Path
 
 from typing import Any
-from typing import List, Union
+from typing import List
+from typing import Union
 
 from wilderness import Tester
 

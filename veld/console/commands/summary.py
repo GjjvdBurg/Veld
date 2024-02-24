@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from veld.console.commands._reducable import ReducableCommand
 from veld.core.operators import SummaryOperator
-
-from ._reducable import ReducableCommand
-
 from veld.stream_processor import BaseStreamProcessor
+
 
 class SummaryCommand(ReducableCommand):
     def __init__(self) -> None:
@@ -20,7 +19,7 @@ class SummaryCommand(ReducableCommand):
                 "printed for each row in the input stream.\n\n"
                 "This command can be applied to non-numeric data streams, but "
                 "some statistics will be undefined (e.g., sum, mean, etc)."
-                )
+            ),
         )
 
     def _get_stream_processor(

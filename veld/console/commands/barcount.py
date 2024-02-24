@@ -5,7 +5,7 @@ from collections import Counter
 from typing import List
 from typing import Union
 
-from ._plot import VeldPlotCommand
+from veld.console.commands._plot import VeldPlotCommand
 
 
 class BarCountCommand(VeldPlotCommand):
