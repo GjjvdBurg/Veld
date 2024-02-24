@@ -13,11 +13,26 @@ jobs:
     name: Code quality checks for Veld
     runs-on: ubuntu-latest
     steps:
+
+      # NOTE: Keep versions in line with .pre-commit-config.yaml
+
       - name: Run black
         uses: psf/black@stable
+        with:
+          options: "--check --verbose"
+          src: "./veld ./tests"
+          version: "24.2.0"
 
       - name: Run isort
         uses: jamescurtin/isort-action@master
+        with:
+          isortVersion: "5.12.0"
+
+      - name: Run ruff
+        uses: chartboost/ruff-action@v1
+        with:
+          src: "./veld ./tests"
+          version: "v0.2.2"
 
   python:
     needs: [code-quality]
