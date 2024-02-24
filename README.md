@@ -37,11 +37,14 @@ univariate statistics:
   stdev         Compute the standard deviation of the input stream
   variance      Compute the variance of the input stream
   quantile      Find the given quantile for the data in the stream
+  trimmed-mean  Compute the trimmed mean for data in the stream
+  summary       Print a summary with commonly-used statistics
 
 extreme values and counts:
   min           Find the minimum of the values in the data stream
   max           Find the maximum of the values in the data stream
   count         Count the number of values in the data stream
+  frequency     Print a frequency table of unique values in the stream
 
 filtering values:
   lt            Keep only inputs that are less than a given threshold
@@ -55,6 +58,12 @@ math operators:
   log           Compute the logarithm of the input stream
   round         Round the floating point values in the input stream
   cumsum        Compute the cumulative sum of the input stream
+  product       Compute the product of values in the data stream
+  add           Add number to values in the stream
+  subtract      Subtract number from values in the stream
+  multiply      Multiply values in the stream by number
+  divide        Divide values in the stream by a number
+  modulo        Compute the remainder of values in the stream
 
 plotting:
   lines         Show line plots of the input data
@@ -62,8 +71,9 @@ plotting:
   histogram     Plot a histogram of the values in the data stream
   barcount      Create a histogram with bars for all unique values in the stream
 
-hypothesis testing:
+other:
   paired-ttest  Perform a paired t-test on two-dimensional data
+  pass          Pass an input stream through Veld
 
 For more information about Veld, visit:
 https://github.com/GjjvdBurg/Veld

@@ -1,5 +1,38 @@
 # Changelog
 
+## Version 0.1.4
+
+* Features
+  - Add frequency command
+  - Add modulo command
+  - Add pass-through command
+  - Add product command
+  - Add summary command
+  - Add basic math operators
+  - Add support for non-numeric values in some commands
+  - Support non-numeric values in barcount
+* Fixes
+  - Checkout code in build action
+  - Make test dir importable
+  - Quotation marks in release workflow
+  - Use urls without variables
+* Testing
+  - Rewrite cumsum test
+  - Add unit tests for trimmed mean
+* Documentation
+  - Minor documentation and testing updates
+* Build
+  - Explicitly specify numpy dependency
+  - Various changes to release script
+* Continuous Integration
+  - Add release workflow with trusted publishers
+  - Updates to release script
+  - Take release notes from tag
+  - Various improvements to release script
+* Code style
+  - Code formatting
+  - Update linters
+
 ## Version 0.1.3
 
 * Features
