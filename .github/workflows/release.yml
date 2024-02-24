@@ -41,7 +41,7 @@ jobs:
     needs:
     - build
     runs-on: ubuntu-latest
-    if: github.event_name == "push" && startsWith(github.event.ref, 'refs/tags/v') && contains(github.event.ref, '-rc.')
+    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') && contains(github.event.ref, '-rc.')
 
     environment:
       name: testpypi
