@@ -32,6 +32,7 @@ URLS = {
 }
 BRANCH_NAME = "main"
 CHANGELOG_FILENAME = "CHANGELOG.md"
+MAN_DIRECTORY = "./man"
 
 
 def color_text(msg, color=None, style=None):
@@ -65,14 +66,14 @@ def wait_for_enter():
 def get_package_name():
     with open("./setup.py", "r") as fp:
         nameline = next(
-            (l.strip() for l in fp if l.startswith("NAME = ")), None
+            (line.strip() for line in fp if line.startswith("NAME = ")), None
         )
         return nameline.split("=")[-1].strip().strip('"')
 
 
 def get_package_version(pkgname):
     ctx = {}
-    with open(f"{pkgname}/__version__.py", "r") as fp:
+    with open(f"{pkgname.lower()}/__version__.py", "r") as fp:
         exec(fp.read(), ctx)
     return ctx["__version__"]
 
@@ -86,11 +87,41 @@ def get_last_version_tag():
             output += line
     tags = output.rstrip().split()
     version_tags = [
-        t for t in tags if re.match("v\d+\.\d+\.\d+", t) is not None
+        t for t in tags if re.match(r"v\d+\.\d+\.\d+", t) is not None
     ]
     versions = [v.lstrip(".") for v in version_tags]
     versions.sort()
     return versions[-1]
+
+
+def get_last_release_candidate_tag(version: str):
+    output = ""
+    with subprocess.Popen(
+        "git tag -l", shell=True, stdout=subprocess.PIPE, text=True, bufsize=1
+    ) as p:
+        for line in p.stdout:
+            output += line
+    tags = output.rstrip().split()
+    version_tags = [
+        t
+        for t in tags
+        if re.match(r"v" + version + r"-rc\.\d+", t) is not None
+    ]
+    versions = [v.lstrip(".") for v in version_tags]
+    versions.sort()
+    if not versions:
+        return None
+    return versions[-1]
+
+
+def build_release_message(context) -> str:
+    message = (
+        f"{context['pkgname'].capitalize()} Release "
+        f"{context['next_version']}"
+    )
+    message += "\n"
+    message += context["changelog_update"]
+    return message
 
 
 class Step(metaclass=abc.ABCMeta):
@@ -185,9 +216,9 @@ class UpdateChangelog(Step):
 
     def get_changelog_section(self, context: Dict[str, str]) -> str:
         next_version = context["next_version"]
-        prev_version = context["prev_version"]
+        prev_version_tag = context["prev_version_tag"]
         commits = self.execute(
-            f"git log --pretty=oneline {prev_version}..HEAD | cut -d' ' -f2-",
+            f"git log --pretty=oneline {prev_version_tag}..HEAD | cut -d' ' -f2-",
             silent=True,
             confirm=False,
         )
@@ -258,6 +289,11 @@ class MakeDocs(Step):
         self.execute("make docs")
 
 
+class MakeMan(Step):
+    def action(self, context):
+        self.execute("make man")
+
+
 class MakeDist(Step):
     def action(self, context):
         self.execute("make dist")
@@ -315,23 +351,65 @@ class RemoveVenv(Step):
 
 class GitTagVersion(Step):
     def action(self, context):
-        self.execute(f"git tag v{context['next_version']}")
+        tag_message = build_release_message(context)
+        with open("./tag_message.tmp", "w") as fileobj:
+            fileobj.write(tag_message)
+        self.instruct("Going to tag with the following message:")
+        print("--- BEGIN TAG MESSAGE ---")
+        print(tag_message)
+        print("--- END TAG MESSAGE ---")
+        self.execute(
+            f"git tag -F ./tag_message.tmp v{context['next_version']}"
+        )
+        os.unlink("./tag_message.tmp")
+
+
+class GitTagPreRelease(Step):
+    def action(self, context):
+        last_rc_tag = get_last_release_candidate_tag(context["next_version"])
+        rc_count = (
+            1 if last_rc_tag is None else int(last_rc_tag.split(".")[-1]) + 1
+        )
+        context["rc_count"] = rc_count
+        self.instruct("Tagging version as a pre-release (increment as needed)")
+        self.execute(
+            f"git tag -m \"{context['pkgname'].capitalize()} Release v"
+            f"{context['next_version']} (release candidate {rc_count})\" v"
+            f"{context['next_version']}-rc.{rc_count}"
+        )
 
 
 class GitAdd(Step):
     def action(self, context):
-        self.instruct("Add everything to git and commit")
+        self.instruct("Commit any final changes for release to git")
         self.print_command("git gui")
+
+
+class GitAddVersionAndMan(Step):
+    def action(self, context):
+        self.instruct("Add version and man pages to git and commit")
+        self.execute(
+            f"git add {context['pkgname']}/__version__.py", confirm=False
+        )
+        self.execute(f"git add {MAN_DIRECTORY}", confirm=False)
+        self.execute("git commit -m 'Bump version and update manpages'")
 
 
 class GitAddRelease(Step):
     def action(self, context):
         self.instruct("Add Changelog & Readme to git")
-        self.instruct(
-            f"Commit with title: {context['pkgname']} Release {context['next_version']}"
-        )
-        self.instruct("Embed changelog in body commit message")
-        self.execute("git gui")
+        self.execute("git add CHANGELOG.md", confirm=False)
+        self.execute("git add README.md", confirm=False)
+        self.instruct("Going to commit with the following message:")
+
+        commit_message = build_release_message(context)
+        print("--- BEGIN COMMIT MESSAGE ---")
+        print(commit_message)
+        print("--- END COMMIT MESSAGE ---")
+        with open("./commit_message.tmp", "w") as fileobj:
+            fileobj.write(commit_message)
+        self.execute("git commit --file ./commit_message.tmp")
+        os.unlink("./commit_message.tmp")
 
 
 class PushToPyPI(Step):
@@ -360,29 +438,36 @@ def main(target=None):
     colorama.init()
     procedure = [
         ("gittomain", GitToMain()),
-        ("gitadd1", GitAdd()),
         ("clean1", MakeClean()),
         ("runtests", RunTests()),
+        ("gitadd1", GitAdd()),
         # trigger CI to run tests on all platforms
         ("push1", PushToGitHub()),
         ("ci1", WaitForCI()),
+        # ("waitrtd", WaitForRTD()), # TODO
         ("bumpversion", BumpVersionPackage()),
-        ("changelog", UpdateChangelog()),
-        ("readme", UpdateReadme()),
-        ("dist", MakeDist()),
-        ("testpypi", PushToTestPyPI()),
+        ("clean2", MakeClean()),
+        ("man1", MakeMan()),
+        # ("docs2", MakeDocs()), # TODO
+        ("gitadd2", GitAddVersionAndMan()),
+        ("gittagpre", GitTagPreRelease()),
+        # triggers Github Actions to build dists and push to TestPyPI
+        ("push2", PushToGitHub()),
+        ("ci2", WaitForCI()),
         ("install", InstallFromTestPyPI()),
         ("testpkg", TestPackage()),
         ("remove_venv", RemoveVenv()),
+        ("changelog", UpdateChangelog()),
+        ("readme", UpdateReadme()),
         ("addrelease", GitAddRelease()),
-        ("pypi", PushToPyPI()),
         ("tagfinal", GitTagVersion()),
-        ("push2", PushToGitHub()),
-        ("gh_release", GitHubRelease()),
+        # triggers Github Actions to build dists and push to PyPI
+        ("push3", PushToGitHub()),
+        ("ci3", WaitForCI()),
     ]
     context = {}
     context["pkgname"] = get_package_name()
-    context["prev_version"] = get_last_version_tag()
+    context["prev_version_tag"] = get_last_version_tag()
     context["next_version"] = get_package_version(context["pkgname"])
     skip = True if target else False
     for name, step in procedure:
