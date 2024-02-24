@@ -1,5 +1,4 @@
 build/
 dist/
-man/
 veld.egg-info
 **/__pycache__/

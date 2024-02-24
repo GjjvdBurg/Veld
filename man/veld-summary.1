@@ -1,0 +1,84 @@
+'\" t
+.\"     Title: veld-summary
+.\"    Author: Gerrit J.J. van den Burg
+.\" Generator: Wilderness <https://pypi.org/project/wilderness>
+.\"      Date: 2024-02-24
+.\"    Manual: veld Manual
+.\"    Source: veld 0.1.4
+.\"  Language: English
+.\"
+.TH "VELD-SUMMARY" "1" "2024\-02\-24" "Veld 0\&.1\&.4" "Veld Manual"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting *
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+veld-summary \- Print a summary with commonly-used statistics
+.SH "SYNOPSIS"
+.sp
+.nf
+\fIveld summary [\-e ENCODING | \-\-encoding=ENCODING] [\-f | \-\-flatten]
+             [\-i | \-\-ignore] [\-s SEPARATOR | \-\-separator=SEPARATOR]
+             [\-r | \-\-reduce] [file]
+.fi
+.sp
+.SH "DESCRIPTION"
+.sp
+The summary command prints an overview of summary statistics for the data stream. For multi\-dimensional input (i.e., multiple columns), the summary is printed for each column individually. If the \-\-reduce option is set, the summary is printed for each row in the input stream.
+.sp
+This command can be applied to non\-numeric data streams, but some statistics will be undefined (e.g., sum, mean, etc).
+.SH "OPTIONS"
+.sp
+.sp
+.sp
+\-h, \-\-help
+.RS 4
+show this help message and exit
+.RE
+.PP
+\-e, \-\-encoding
+.RS 4
+Specify the encoding of the input stream.
+.RE
+.PP
+\-f, \-\-flatten
+.RS 4
+With multidimensional input (more than one value per line) the operation is normally conducted on each dimension independently. With the \-\-flatten option, the input is flattened line\-wise (RowMajor order) and the operation is conducted on the resulting one\-dimensional stream.
+.RE
+.PP
+\-i, \-\-ignore
+.RS 4
+Ignore non\-numeric values in the input stream
+.RE
+.PP
+\-s, \-\-separator
+.RS 4
+Some of the Veld commands have support for multidimensional input data. The values on each line of the input stream are expected to be separated by this separator. By default, the tab character will be used as a separator.
+.RE
+.PP
+\-r, \-\-reduce
+.RS 4
+By default Veld applies operators column\-wise, retaining the dimension of the input values. With the \-\-reduce option the operation is performed on individual rows (i.e., lines) instead, so a single value is returned for each line of data in the input.
+.RE
+.PP
+[file]
+.RS 4
+Veld is primarily designed for processing input streams, but it can also be applied on a file of data, which can be supplied with this argument. By default Veld will read the input data from stdin.
+.RE
+.PP
+.sp
