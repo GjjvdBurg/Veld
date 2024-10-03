@@ -35,6 +35,18 @@ class FrequencyCommand(VeldCommand):
             default=2,
             help="Rounding precision for the percentages",
         )
+        self.add_argument(
+            "-r",
+            "--reverse",
+            action="store_true",
+            help="Reverse the output on each row (counts/percentages first)",
+        )
+        self.add_argument(
+            "-a",
+            "--ascending",
+            action="store_true",
+            help="Print the table in ascending order",
+        )
 
     def _get_stream_processor(
         self, keep_text: bool = False
@@ -42,9 +54,7 @@ class FrequencyCommand(VeldCommand):
         return super()._get_stream_processor(keep_text=True)
 
     def handle(self) -> int:
-        builder = FrequencyTableBuilder(
-            self.args.percentage, ndigits=self.args.ndigits
-        )
+        builder = FrequencyTableBuilder()
         for values in self._get_stream_processor(keep_text=True):
             if len(values) > 1:
                 raise InvalidInputError(
@@ -53,8 +63,15 @@ class FrequencyCommand(VeldCommand):
                 )
             value = values[0]
             builder.update(value)
-        result = builder.get_result()
-        if result is None:
+        table = builder.get_table()
+        if table is None:
             raise EmptyStreamError()
-        print("\n".join(["\t".join(map(str, row)) for row in result]))
+        print(
+            table.render(
+                use_percentage=self.args.percentage,
+                ndigits=self.args.ndigits,
+                reverse=self.args.reverse,
+                ascending=self.args.ascending,
+            )
+        )
         return 0
