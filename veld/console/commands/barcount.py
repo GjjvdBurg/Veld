@@ -3,6 +3,7 @@
 from collections import Counter
 
 from typing import List
+from typing import Tuple
 from typing import Union
 
 from veld.console.commands._plot import VeldPlotCommand
@@ -72,11 +73,12 @@ class BarCountCommand(VeldPlotCommand):
 
         counters = [Counter(column) for column in all_values]
         all_keys = sorted(
-            set().union(*[counter.keys() for counter in counters])
+            set().union(*[counter.keys() for counter in counters]),
+            key=_mixed_sort,
         )
         key_map = {key: i for i, key in enumerate(all_keys)}
         for i, counter in enumerate(counters):
-            keys = sorted(counter.keys())
+            keys = sorted(counter.keys(), key=_mixed_sort)
             ys: List[float] = [counter[key] for key in keys]
             xs = [key_map[key] for key in keys]
             xs = [x - w / 2 + (2 * i + 1) * w / n_col / 2 for x in xs]
@@ -91,3 +93,9 @@ class BarCountCommand(VeldPlotCommand):
         self.set_plot_attributes()
         self.plt.show()
         return 0
+
+
+def _mixed_sort(
+    item: Union[int, float, str]
+) -> Tuple[int, Union[int, float, str]]:
+    return (0, item) if isinstance(item, (int, float)) else (1, item)
