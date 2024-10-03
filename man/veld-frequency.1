@@ -2,12 +2,12 @@
 .\"     Title: veld-frequency
 .\"    Author: Gerrit J.J. van den Burg
 .\" Generator: Wilderness <https://pypi.org/project/wilderness>
-.\"      Date: 2024-02-24
+.\"      Date: 2024-10-03
 .\"    Manual: veld Manual
-.\"    Source: veld 0.1.4
+.\"    Source: veld 0.1.5
 .\"  Language: English
 .\"
-.TH "VELD-FREQUENCY" "1" "2024\-02\-24" "Veld 0\&.1\&.4" "Veld Manual"
+.TH "VELD-FREQUENCY" "1" "2024\-10\-03" "Veld 0\&.1\&.5" "Veld Manual"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -34,7 +34,8 @@ veld-frequency \- Print a frequency table of unique values in the stream
 .nf
 \fIveld frequency [\-e ENCODING | \-\-encoding=ENCODING] [\-f | \-\-flatten]
                [\-i | \-\-ignore] [\-s SEPARATOR | \-\-separator=SEPARATOR]
-               [\-p | \-\-percentage] [\-n NDIGITS | \-\-ndigits=NDIGITS] [file]
+               [\-p | \-\-percentage] [\-n NDIGITS | \-\-ndigits=NDIGITS]
+               [\-r | \-\-reverse] [\-a | \-\-ascending] [file]
 .fi
 .sp
 .SH "DESCRIPTION"
@@ -79,6 +80,16 @@ Show percentages instead of counts
 \-n, \-\-ndigits
 .RS 4
 Rounding precision for the percentages
+.RE
+.PP
+\-r, \-\-reverse
+.RS 4
+Reverse the output on each row (counts/percentages first)
+.RE
+.PP
+\-a, \-\-ascending
+.RS 4
+Print the table in ascending order
 .RE
 .PP
 [file]
