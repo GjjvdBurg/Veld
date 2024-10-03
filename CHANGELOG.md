@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 0.1.5
+
+* Features
+  - Add reversal options to frequency command
+  - Handle mixed data types in barcount
+* Fixes
+  - Handle scientific number notation
+* Continuous Integration
+  - Update github release workflow
+
 ## Version 0.1.4
 
 * Features
